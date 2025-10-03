@@ -22,7 +22,7 @@
 
     />
 
-    <link rel="stylesheet" href="01.css">
+
     <!-- <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet"> -->
 
     <!-- <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,900;1,6..96,900&family=Lobster&display=swap" rel="stylesheet"> -->
@@ -31,10 +31,15 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Playwrite+HU&family=Tsukimi+Rounded&display=swap" rel="stylesheet"> 
 
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <!-- EmailJS SDK - Updated Version -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<!-- SEO Meta Tags -->
+
+ <link rel="stylesheet" href="01.css">
+<!-- SEO Meta Tags -->    
+
     <meta
       name="description"
       content="TWENTY ONE CAFE- Premium coffee experience with exclusive loyalty rewards"
@@ -2332,17 +2337,10 @@
     </div>
 
     <!-- Checkout Modal -->
-    <div
-      id="checkout-modal"
-      class="fixed inset-0 popup-backdrop hidden items-center justify-center z-50 p-6"
-    >
-      <div
-        class="glass-effect rounded-3xl p-8 max-w-2xl w-full max-h-90vh overflow-y-auto shadow-2xl mobile-popup"
-      >
+    <div id="checkout-modal" class="fixed inset-0 popup-backdrop hidden items-center justify-center z-50 p-6">
+      <div class="glass-effect rounded-3xl p-8 max-w-2xl w-full max-h-90vh overflow-y-auto shadow-2xl mobile-popup">
         <div class="text-center mb-8">
-          <div
-            class="w-20 h-20 bg-gradient-to-br from-green-600 to-green-800 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg"
-          >
+          <div class="w-20 h-20 bg-gradient-to-br from-green-600 to-green-800 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg">
             <i class="fas fa-credit-card text-white text-3xl"></i>
           </div>
           <h2 class="text-3xl font-playfair font-bold text-amber-900 mb-2">
@@ -2356,65 +2354,51 @@
         <form id="checkout-form" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label
-                for="checkout-name"
-                class="block text-lg font-semibold text-amber-900 mb-2"
-                >Full Name *</label
-              >
-              <input
-                type="text"
-                id="checkout-name"
-                required=""
-                class="w-full p-4 border-2 border-amber-200 rounded-2xl focus:border-amber-500 focus:outline-none text-lg bg-white/80 backdrop-blur-sm transition-all duration-300"
-              />
+              <label for="checkout-name" class="block text-lg font-semibold text-amber-900 mb-2">Full Name *</label>
+              <input type="text" id="checkout-name" required="" class="w-full p-4 border-2 border-amber-200 rounded-2xl focus:border-amber-500 focus:outline-none text-lg bg-white/80 backdrop-blur-sm transition-all duration-300"/>
             </div>
             <div>
-              <label
-                for="checkout-phone"
-                class="block text-lg font-semibold text-amber-900 mb-2"
-                >Phone Number *</label
-              >
-              <input
-                type="tel"
-                id="checkout-phone"
-                required=""
-                class="w-full p-4 border-2 border-amber-200 rounded-2xl focus:border-amber-500 focus:outline-none text-lg bg-white/80 backdrop-blur-sm transition-all duration-300"
-              />
+              <label for="checkout-phone" class="block text-lg font-semibold text-amber-900 mb-2">Phone Number *</label>
+              <input type="tel" id="checkout-phone" required="" class="w-full p-4 border-2 border-amber-200 rounded-2xl focus:border-amber-500 focus:outline-none text-lg bg-white/80 backdrop-blur-sm transition-all duration-300"/>
             </div>
           </div>
 
           <div>
-            <label
-              for="checkout-address"
-              class="block text-lg font-semibold text-amber-900 mb-2"
-              >Delivery Address *</label
-            >
-            <textarea
-              id="checkout-address"
-              rows="3"
-              required=""
-              class="w-full p-4 border-2 border-amber-200 rounded-2xl focus:border-amber-500 focus:outline-none resize-none text-lg bg-white/80 backdrop-blur-sm transition-all duration-300"
-            ></textarea>
+            <label for="checkout-city" class="block text-lg font-semibold text-amber-900 mb-2">المحافظة *</label>
+            <select id="checkout-city" required="" class="w-full p-4 border-2 border-amber-200 rounded-2xl focus:border-amber-500 focus:outline-none text-lg bg-white/80 backdrop-blur-sm transition-all duration-300">
+              <option value="">اختر المحافظة</option>
+              <option value="بغداد">بغداد</option>
+              <option value="البصرة">البصرة</option>
+              <option value="نينوى">نينوى</option>
+              <option value="أربيل">أربيل</option>
+              <option value="النجف">النجف</option>
+              <option value="كربلاء">كربلاء</option>
+              <option value="بابل">بابل</option>
+              <option value="الأنبار">الأنبار</option>
+              <option value="القادسية">القادسية</option>
+              <option value="صلاح الدين">صلاح الدين</option>
+              <option value="ذي قار">ذي قار</option>
+              <option value="المثنى">المثنى</option>
+              <option value="كركوك">كركوك</option>
+              <option value="واسط">واسط</option>
+              <option value="ميسان">ميسان</option>
+              <option value="السليمانية">السليمانية</option>
+              <option value="دهوك">دهوك</option>
+              <option value="ديالى">ديالى</option>
+            </select>
           </div>
 
           <div>
-            <label
-              for="checkout-notes"
-              class="block text-lg font-semibold text-amber-900 mb-2"
-              >Additional Notes</label
-            >
-            <textarea
-              id="checkout-notes"
-              rows="2"
-              class="w-full p-4 border-2 border-amber-200 rounded-2xl focus:border-amber-500 focus:outline-none resize-none text-lg bg-white/80 backdrop-blur-sm transition-all duration-300"
-              placeholder="Any special instructions..."
-            ></textarea>
+            <label for="checkout-address" class="block text-lg font-semibold text-amber-900 mb-2">Delivery Address *</label>
+            <textarea id="checkout-address" rows="3" required="" class="w-full p-4 border-2 border-amber-200 rounded-2xl focus:border-amber-500 focus:outline-none resize-none text-lg bg-white/80 backdrop-blur-sm transition-all duration-300"></textarea>
           </div>
 
-          <div
-            id="checkout-summary"
-            class="bg-amber-50 p-6 rounded-2xl border border-amber-200"
-          >
+          <div>
+            <label for="checkout-notes" class="block text-lg font-semibold text-amber-900 mb-2">Additional Notes</label>
+            <textarea id="checkout-notes" rows="2" class="w-full p-4 border-2 border-amber-200 rounded-2xl focus:border-amber-500 focus:outline-none resize-none text-lg bg-white/80 backdrop-blur-sm transition-all duration-300" placeholder="Any special instructions..."></textarea>
+          </div>
+
+          <div id="checkout-summary" class="bg-amber-50 p-6 rounded-2xl border border-amber-200">
             <h3 class="text-xl font-semibold text-amber-900 mb-4">
               Order Summary
             </h3>
@@ -2422,9 +2406,7 @@
               <!-- Order items will be listed here -->
             </div>
             <div class="border-t border-amber-300 pt-4">
-              <div
-                class="flex justify-between items-center text-xl font-bold text-amber-900"
-              >
+              <div class="flex justify-between items-center text-xl font-bold text-amber-900">
                 <span>Total:</span>
                 <span id="checkout-total-amount">0 IQD</span>
               </div>
@@ -2432,24 +2414,18 @@
           </div>
 
           <div class="flex flex-col sm:flex-row gap-4">
-            <button
-              type="submit"
-              class="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg"
-            >
+            <button type="submit" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg">
               <i class="fas fa-check mr-2"></i>
               Confirm Purchase
             </button>
-            <button
-              type="button"
-              id="checkout-modal-close"
-              class="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg"
-            >
+            <button type="button" id="checkout-modal-close" class="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] shadow-lg">
               Cancel
             </button>
           </div>
         </form>
       </div>
     </div>
+
 
     <!-- Customer Login/Register Modal -->
     <div
