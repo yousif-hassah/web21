@@ -1,38 +1,37 @@
- // ===== Initialize Supabase =====
-      console.log('🚀 بدء تهيئة Supabase...');
-      const SUPABASE_URL = 'https://ldmykzeqqjuwcusiwqwe.supabase.co';
-      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkbXlremVxcWp1d2N1c2l3cXdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzMTQ0MTEsImV4cCI6MjA3NDg5MDQxMX0.8YUZQSDi_y6OVJk-6bwOxugFM0fI4RBGV5nCqY8hDv8';
+﻿// ===== Initialize Supabase =====
+console.log("🚀 Initializing Supabase...");
+const SUPABASE_URL = "https://ldmykzeqqjuwcusiwqwe.supabase.co";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkbXlremVxcWp1d2N1c2l3cXdlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzMTQ0MTEsImV4cCI6MjA3NDg5MDQxMX0.8YUZQSDi_y6OVJk-6bwOxugFM0fI4RBGV5nCqY8hDv8";
 
-      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      console.log('✅ تم تهيئة Supabase بنجاح');
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+console.log("✅ Supabase initialized successfully");
 
-      // ===== Global Variables =====
-      let currentCustomer = null;
-      let selectedBaristaCustomer = null;
-      let customers = [];
-      let pendingOrders = [];
-      let shopOrders = [];
-      let customProducts = [];
-      let shoppingCart = [];
-      let menuItems = [];
-      let shopItems = [];
-      
-      const STAMPS_FOR_FREE = 6;
-      const DEFAULT_BARISTA_PIN = "1234";
+// ===== Global Variables =====
+let currentCustomer = null;
+let selectedBaristaCustomer = null;
+let customers = [];
+let pendingOrders = [];
+let shopOrders = [];
+let customProducts = [];
+let shoppingCart = [];
+let menuItems = [];
+let shopItems = [];
 
-      // Menu items data - will be loaded from database or predefined
-      const DEFAULT_MENU_ITEMS = [
+const STAMPS_FOR_FREE = 6;
+const DEFAULT_BARISTA_PIN = "1234";
 
+// Menu items data - will be loaded from database or predefined
+const DEFAULT_MENU_ITEMS = [
   {
-
     //HOT CHOCOLATE
-
     id: 1,
     name: "ORIGINAL HOT CHOCOLATE",
     price: "4000",
     priceNum: 4000,
-    image: "/image/40.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT CHOCOLATE",
   },
   {
@@ -40,8 +39,9 @@
     name: "HOT CHOCOLATE CINNAMON",
     price: "5000",
     priceNum: 5000,
-    image: "/image/hot choocolate cinnamon.jpg",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/hot-choocolate-cinnamon.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT CHOCOLATE",
   },
   {
@@ -49,8 +49,9 @@
     name: "SNOWFLAKE HOT CHOCOLATE",
     price: "4500",
     priceNum: 4500,
-    image: "/image/20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT CHOCOLATE",
   },
   {
@@ -58,23 +59,20 @@
     name: "MARSHMALLOW HOT CHOCOLATE",
     price: "5000",
     priceNum: 5000,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT CHOCOLATE",
   },
-
-
-//HOT COFFEE
-
-
-
+  //HOT COFFEE
   {
     id: 5,
     name: "ESPRESSO",
     price: "2500",
     priceNum: 2500,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -82,8 +80,9 @@
     name: "DOUBLE ESPRESSO",
     price: "3500",
     priceNum: 3500,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -91,8 +90,9 @@
     name: "TURKISH",
     price: "2500",
     priceNum: 2500,
-    image: "/image/hot-coffee-turkish-.jpg",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/hot-coffee-turkish.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -100,8 +100,9 @@
     name: "CARAMEL MACCHIATO",
     price: "5000",
     priceNum: 5000,
-    image: "/image/hot coffee latte.jpg",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/hot-coffee-latte.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -109,8 +110,9 @@
     name: "CORTADO",
     price: "4000",
     priceNum: 4000,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -118,8 +120,9 @@
     name: "AMERICANO",
     price: "4000",
     priceNum: 4000,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -127,8 +130,9 @@
     name: "FLAT WHITE",
     price: "4000",
     priceNum: 4000,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -136,8 +140,9 @@
     name: "LATTE",
     price: "4500",
     priceNum: 4500,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -145,8 +150,9 @@
     name: "CAPPUCCINO",
     price: "4500",
     priceNum: 4500,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -154,8 +160,9 @@
     name: "SPANISH LATTE",
     price: "5000",
     priceNum: 5000,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -163,8 +170,9 @@
     name: "WHITE MOCHA",
     price: "5500",
     priceNum: 5500,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
   {
@@ -172,21 +180,20 @@
     name: "DARK MOCHA",
     price: "5500",
     priceNum: 5500,
-    image: "20.JPG",
-    description: "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
+    image: "image/coffee-default.jpg",
+    description:
+      "Velvety steamed milk artfully combined with premium espresso for perfect harmony.",
     category: "HOT COFFEE",
   },
-
-
-
-    // ICED BLEND
+  // ICED BLEND
   {
     id: 17,
     name: "VANILLA",
     price: "5000",
     priceNum: 5000,
-    image: "/image/iced-blend-vanilla.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-vanilla.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED BLEND",
   },
   {
@@ -194,8 +201,9 @@
     name: "OREO",
     price: "5000",
     priceNum: 5000,
-    image: "/image/iced-blend-oreo.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-oreo.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED BLEND",
   },
   {
@@ -203,8 +211,9 @@
     name: "CHOCOLATE",
     price: "5000",
     priceNum: 5000,
-    image: "/image/iced-blend-chocolate.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-chocolate.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED BLEND",
   },
   {
@@ -212,8 +221,9 @@
     name: "PISTACHIO",
     price: "6000",
     priceNum: 6000,
-    image: "/image/iced-blend-pistachio.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-pistachio.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED BLEND",
   },
   {
@@ -221,8 +231,9 @@
     name: "LOTUS",
     price: "5000",
     priceNum: 5000,
-    image: "/image/iced-blend-lotus.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-lotus.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED BLEND",
   },
   {
@@ -230,19 +241,20 @@
     name: "STRAWBERRY",
     price: "5000",
     priceNum: 5000,
-    image: "/image/Iced-blend-strawberry.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-strawberry.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED BLEND",
   },
-
   // ICED COFFEE
   {
     id: 23,
     name: "AFFOGATO",
     price: "4500",
     priceNum: 4500,
-    image: "/image/Iced-blend-strawberry.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-strawberry.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED COFFEE",
   },
   {
@@ -250,8 +262,9 @@
     name: "ICED AMERICANO",
     price: "4500",
     priceNum: 4500,
-    image: "/image/ice-Americano-.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/ice-americano.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED COFFEE",
   },
   {
@@ -259,8 +272,9 @@
     name: "ICED LATTE",
     price: "5000",
     priceNum: 5000,
-    image: "/image/Iced-blend-strawberry.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-strawberry.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED COFFEE",
   },
   {
@@ -268,8 +282,9 @@
     name: "ICED SPANISH LATTE",
     price: "5000",
     priceNum: 5000,
-    image: "/image/Iced-blend-strawberry.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-strawberry.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED COFFEE",
   },
   {
@@ -277,8 +292,9 @@
     name: "ICED MOCHA",
     price: "6000",
     priceNum: 6000,
-    image: "/image/Iced-blend-strawberry.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-strawberry.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED COFFEE",
   },
   {
@@ -286,8 +302,9 @@
     name: "ICED SHAKEN",
     price: "6000",
     priceNum: 6000,
-    image: "/image/Iced-blend-strawberry.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-strawberry.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED COFFEE",
   },
   {
@@ -295,19 +312,19 @@
     name: "ICED CARAMEL MACCHIATO",
     price: "6000",
     priceNum: 6000,
-    image: "/image/Iced-blend-strawberry.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-blend-strawberry.jpg",
+    description:
+      "Velvety steamed milk artfully combined with our premium espresso.",
     category: "ICED COFFEE",
   },
-
   // SMOOTHE
   {
     id: 30,
     name: "STRAWBERRY",
     price: "5000",
     priceNum: 5000,
-    image: "/image/smoothe-strawberry.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/smoothe-strawberry.jpg",
+    description: "Refreshing smooth fruit blend.",
     category: "SMOOTHE",
   },
   {
@@ -315,8 +332,8 @@
     name: "BLUE BERRY",
     price: "5000",
     priceNum: 5000,
-    image: "/image/smoothe-blue-berry.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/smoothe-blue-berry.jpg",
+    description: "Refreshing smooth fruit blend.",
     category: "SMOOTHE",
   },
   {
@@ -324,19 +341,18 @@
     name: "TORPICAL FRUITS",
     price: "6000",
     priceNum: 6000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Refreshing smooth fruit blend.",
     category: "SMOOTHE",
   },
-
   // ICE DRINKS
   {
     id: 33,
     name: "LEMON MINT BREEZE",
     price: "5000",
     priceNum: 5000,
-    image: "/image/ice-drinks---lemon-mint-breeze.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/ice-drinks-lemon-mint-breeze.jpg",
+    description: "Cool and refreshing iced drink.",
     category: "ICE DRINKS",
   },
   {
@@ -344,8 +360,8 @@
     name: "FILP BLUE",
     price: "5000",
     priceNum: 5000,
-    image: "/image/ice-drinks-filp blue.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/ice-drinks-filp-blue.jpg",
+    description: "Cool and refreshing iced drink.",
     category: "ICE DRINKS",
   },
   {
@@ -353,8 +369,8 @@
     name: "QUIET ROAD",
     price: "5500",
     priceNum: 5500,
-    image: "/image/ice-drink-quiet road.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/ice-drink-quiet-road.jpg",
+    description: "Cool and refreshing iced drink.",
     category: "ICE DRINKS",
   },
   {
@@ -362,8 +378,8 @@
     name: "BLOODY MARY",
     price: "6000",
     priceNum: 6000,
-    image: "/image/ice-drinks-bloody mary.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/ice-drinks-bloody-mary.jpg",
+    description: "Cool and refreshing iced drink.",
     category: "ICE DRINKS",
   },
   {
@@ -371,8 +387,8 @@
     name: "ICE TEA LEMON",
     price: "5000",
     priceNum: 5000,
-    image: "/image/ice-tea-lemon.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/ice-tea-lemon.jpg",
+    description: "Cool and refreshing iced drink.",
     category: "ICE DRINKS",
   },
   {
@@ -380,8 +396,8 @@
     name: "ICE TEA PEACH",
     price: "5000",
     priceNum: 5000,
-    image: "/image/iced tea peach.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/iced-tea-peach.jpg",
+    description: "Cool and refreshing iced drink.",
     category: "ICE DRINKS",
   },
   {
@@ -389,22 +405,18 @@
     name: "HIBISCUS",
     price: "6000",
     priceNum: 6000,
-    image: "/image/ice-drinks-hibiscus.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/ice-drinks-hibiscus.jpg",
+    description: "Cool and refreshing iced drink.",
     category: "ICE DRINKS",
   },
-
-
-
-
-   // SIGNATURES
+  // SIGNATURES
   {
     id: 40,
     name: "21 ICED COFFEE",
     price: "6000",
     priceNum: 6000,
-    image: "/image/",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/coffee-default.jpg",
+    description: "Signature 21 Cafe experience.",
     category: "SIGNATURES",
   },
   {
@@ -412,8 +424,8 @@
     name: "21 ICED TEA",
     price: "6000",
     priceNum: 6000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Signature 21 Cafe experience.",
     category: "SIGNATURES",
   },
   {
@@ -421,8 +433,8 @@
     name: "TROPICAL TANGO",
     price: "6000",
     priceNum: 6000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Signature 21 Cafe experience.",
     category: "SIGNATURES",
   },
   {
@@ -430,8 +442,8 @@
     name: "PURPLE LADY",
     price: "6000",
     priceNum: 6000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Signature 21 Cafe experience.",
     category: "SIGNATURES",
   },
   {
@@ -439,19 +451,18 @@
     name: "DARK MOON",
     price: "6000",
     priceNum: 6000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Signature 21 Cafe experience.",
     category: "SIGNATURES",
   },
-
   // SPECIALITY
   {
     id: 45,
     name: "V60",
     price: "5000",
     priceNum: 5000,
-    image: "/image/speciality-V60.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/speciality-v60.jpg",
+    description: "Speciality coffee brewing.",
     category: "SPECIALITY",
   },
   {
@@ -459,8 +470,8 @@
     name: "CHEMEX",
     price: "5000",
     priceNum: 5000,
-    image: "/image/SPECIALITY-CHEMEX.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/speciality-chemex.jpg",
+    description: "Speciality coffee brewing.",
     category: "SPECIALITY",
   },
   {
@@ -468,8 +479,8 @@
     name: "FRENCH PRESS",
     price: "5000",
     priceNum: 5000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Speciality coffee brewing.",
     category: "SPECIALITY",
   },
   {
@@ -477,19 +488,18 @@
     name: "AEROPRESS",
     price: "8000",
     priceNum: 8000,
-    image: "/image/",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/coffee-default.jpg",
+    description: "Speciality coffee brewing.",
     category: "SPECIALITY",
   },
-
   // YOGURT
   {
     id: 49,
     name: "STAWBERRY MANGO",
     price: "5000",
     priceNum: 5000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Healthy yogurt fruit blend.",
     category: "YOGURT",
   },
   {
@@ -497,8 +507,8 @@
     name: "STAWBERRY BANANA",
     price: "5000",
     priceNum: 5000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Healthy yogurt fruit blend.",
     category: "YOGURT",
   },
   {
@@ -506,1004 +516,1108 @@
     name: "MIX BERRIES",
     price: "5000",
     priceNum: 5000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Healthy yogurt fruit blend.",
     category: "YOGURT",
   },
-
   // AGED COFFEE
   {
     id: 52,
     name: "COLD BREW",
     price: "6000",
     priceNum: 6000,
-    image: "/image/smoothe-torpical-fruitsg.jpg",
-    description: "Velvety steamed milk artfully combined with our premium espresso, creating a harmonious blend of comfort and sophistication.",
+    image: "image/tropical-fruits.jpg",
+    description: "Premium aged coffee experience.",
     category: "AGED COFFEE",
-  }
+  },
+];
 
-
-
-
-      ];
-
-      const DEFAULT_SHOP_ITEMS = [
-     
+const DEFAULT_SHOP_ITEMS = [
   {
     id: 1,
-    name: "?????",
-    price: "0",
-    priceNum: 0,
-    image: "/image/تنزيل.jpg",
-    description: ".",
+    name: "EQUIPMENT 1",
+    price: "15000",
+    priceNum: 15000,
+    image: "image/download.jpg",
+    description: "Premium brewing equipment.",
     category: "equipment",
   },
   {
-    id:2,
-    name: "?????",
-    price: "0",
-    priceNum: 0,
-    image: "/image/تنزيل.jpg",
-    description: ".",
+    id: 2,
+    name: "EQUIPMENT 2",
+    price: "25000",
+    priceNum: 25000,
+    image: "image/download.jpg",
+    description: "Premium brewing equipment.",
     category: "equipment",
   },
   {
     id: 3,
-    name: "?????",
-    price: "0",
-    priceNum: 0,
-    image: "/image/تنزيل.jpg",
-    description: ".",
+    name: "EQUIPMENT 3",
+    price: "35000",
+    priceNum: 35000,
+    image: "image/download.jpg",
+    description: "Premium brewing equipment.",
     category: "equipment",
   },
   {
     id: 4,
-    name: "?????",
-    price: "0",
-    priceNum: 0,
-    image: "/image/تنزيل.jpg",
-    description: ".",
+    name: "EQUIPMENT 4",
+    price: "45000",
+    priceNum: 45000,
+    image: "image/download.jpg",
+    description: "Premium brewing equipment.",
     category: "equipment",
   },
-  {
-    id: 5,
-    name: "?????",
-    price: "0",
-    priceNum: 0,
-    image: "/image/تنزيل.jpg",
-    description: ".",
-    category: "equipment",
-  },
-  {
-    id: 6,
-    name: "?????",
-    price: "0",
-    priceNum: 0,
-    image: "/image/تنزيل.jpg",
-    description: ".",
-    category: "equipment",
-  }
 ];
-     
 
-      // ===== Utility Functions =====
-      function showNotification(message, type = "success") {
-        console.log(`📢 إشعار (${type}): ${message}`);
-        const notification = document.getElementById("notification");
-        const notificationContent = document.getElementById("notification-content");
-        const notificationText = document.getElementById("notification-text");
+// ===== Utility Functions =====
+function showNotification(message, type = "success") {
+  console.log(`📢 Notification (${type}): ${message}`);
+  const notification = document.getElementById("notification");
+  const notificationContent = document.getElementById("notification-content");
+  const notificationText = document.getElementById("notification-text");
 
-        if (!notification || !notificationContent || !notificationText) {
-          console.error('❌ عناصر الإشعار غير موجودة');
-          return;
-        }
+  if (!notification || !notificationContent || !notificationText) {
+    console.error("âŒ Ø¹Ù†Ø§ØµØ± Ø§Ù„Ø¥Ø´Ø¹Ø§Ø± ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯Ø©");
+    return;
+  }
 
-        notificationText.textContent = message;
+  notificationText.textContent = message;
 
-        if (type === "error") {
-          notificationContent.className =
-            "bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-2xl shadow-2xl transform transition-all duration-500 backdrop-blur-sm border border-red-500";
-        } else {
-          notificationContent.className =
-            "bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-8 py-4 rounded-2xl shadow-2xl transform transition-all duration-500 backdrop-blur-sm border border-emerald-500";
-        }
+  if (type === "error") {
+    notificationContent.className =
+      "bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-2xl shadow-2xl transform transition-all duration-500 backdrop-blur-sm border border-red-500";
+  } else {
+    notificationContent.className =
+      "bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-8 py-4 rounded-2xl shadow-2xl transform transition-all duration-500 backdrop-blur-sm border border-emerald-500";
+  }
 
-        notification.classList.remove("hidden");
-        notificationContent.style.transform = "translateX(0)";
+  notification.classList.remove("hidden");
+  notificationContent.style.transform = "translateX(0)";
 
-        setTimeout(() => {
-          notificationContent.style.transform = "translateX(100%)";
-          setTimeout(() => {
-            notification.classList.add("hidden");
-          }, 300);
-        }, 4000);
-      }
+  setTimeout(() => {
+    notificationContent.style.transform = "translateX(100%)";
+    setTimeout(() => {
+      notification.classList.add("hidden");
+    }, 300);
+  }, 4000);
+}
 
-      function formatPrice(price) {
-        return price.toLocaleString() + " IQD";
-      }
+function formatPrice(price) {
+  return price.toLocaleString() + " IQD";
+}
 
-      function generateId() {
-        return "_" + Math.random().toString(36).substr(2, 9);
-      }
+function generateId() {
+  return "_" + Math.random().toString(36).substr(2, 9);
+}
 
-      // ===== Supabase Database Functions =====
-      
-      // Load customers from Supabase
-      async function loadCustomers() {
-        try {
-          console.log('🔄 تحميل العملاء من قاعدة البيانات...');
-          const { data, error } = await supabase
-            .from('customers')
-            .select(`
+// ===== sb Database Functions =====
+
+// Load customers from sb
+async function loadCustomers() {
+  try {
+    console.log(
+      "ðŸ”„ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡ Ù…Ù† Ù‚Ø§Ø¹Ø¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª..."
+    );
+    const { data, error } = await sb
+      .from("customers")
+      .select(
+        `
               *,
               orders (*)
-            `)
-            .order('created_at', { ascending: false });
+            `
+      )
+      .order("created_at", { ascending: false });
 
-          if (error) {
-            throw error;
-          }
+    if (error) {
+      throw error;
+    }
 
-          customers = data || [];
-          console.log(`✅ تم تحميل ${customers.length} عميل بنجاح`);
-          
-        } catch (error) {
-          console.error('❌ خطأ في تحميل العملاء:', error);
-          showNotification('خطأ في تحميل بيانات العملاء: ' + error.message, 'error');
-          customers = []; // Fallback to empty array
-        }
+    customers = data || [];
+    console.log(`âœ… ØªÙ… ØªØ­Ù…ÙŠÙ„ ${customers.length} Ø¹Ù…ÙŠÙ„ Ø¨Ù†Ø¬Ø§Ø­`);
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ ØªØ­Ù…ÙŠÙ„ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡: " + error.message,
+      "error"
+    );
+    customers = []; // Fallback to empty array
+  }
+}
+
+// Load pending orders from sb
+async function loadPendingOrders() {
+  try {
+    console.log("ðŸ”„ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ù…Ø¹Ù„Ù‚Ø©...");
+    const { data, error } = await sb
+      .from("pending_orders")
+      .select("*")
+      .eq("status", "pending")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    pendingOrders = data || [];
+    console.log(`âœ… ØªÙ… ØªØ­Ù…ÙŠÙ„ ${pendingOrders.length} Ø·Ù„Ø¨ Ù…Ø¹Ù„Ù‚`);
+    renderPendingOrders();
+  } catch (error) {
+    console.error(
+      "âŒ Ø®Ø·Ø£ ÙÙŠ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ù…Ø¹Ù„Ù‚Ø©:",
+      error
+    );
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ù…Ø¹Ù„Ù‚Ø©: " + error.message,
+      "error"
+    );
+    pendingOrders = []; // Fallback to empty array
+  }
+}
+
+// Load shop orders from sb
+async function loadShopOrders() {
+  try {
+    console.log("ðŸ”„ ØªØ­Ù…ÙŠÙ„ Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ù…ØªØ¬Ø±...");
+    const { data, error } = await sb
+      .from("shop_orders")
+      .select("*")
+      .eq("status", "pending")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    shopOrders = data || [];
+    console.log(`âœ… ØªÙ… ØªØ­Ù…ÙŠÙ„ ${shopOrders.length} Ø·Ù„Ø¨ Ù…ØªØ¬Ø±`);
+    renderShopOrders();
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ ØªØ­Ù…ÙŠÙ„ Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ù…ØªØ¬Ø±:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ ØªØ­Ù…ÙŠÙ„ Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ù…ØªØ¬Ø±: " + error.message,
+      "error"
+    );
+    shopOrders = []; // Fallback to empty array
+  }
+}
+
+// Load custom products from sb
+async function loadCustomProducts() {
+  try {
+    console.log("ðŸ”„ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ù†ØªØ¬Ø§Øª Ø§Ù„Ù…Ø®ØµØµØ©...");
+    const { data, error } = await sb
+      .from("custom_products")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    customProducts = data || [];
+    console.log(
+      `âœ… ØªÙ… ØªØ­Ù…ÙŠÙ„ ${customProducts.length} Ù…Ù†ØªØ¬ Ù…Ø®ØµØµ`
+    );
+    updateProductSelect();
+  } catch (error) {
+    console.error(
+      "âŒ Ø®Ø·Ø£ ÙÙŠ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ù†ØªØ¬Ø§Øª Ø§Ù„Ù…Ø®ØµØµØ©:",
+      error
+    );
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ù†ØªØ¬Ø§Øª Ø§Ù„Ù…Ø®ØµØµØ©: " + error.message,
+      "error"
+    );
+    customProducts = []; // Fallback to empty array
+  }
+}
+
+// Save customer to sb
+async function saveCustomerTosb(customer) {
+  try {
+    console.log(
+      "ðŸ’¾ Ø­ÙØ¸ Ø§Ù„Ø¹Ù…ÙŠÙ„ ÙÙŠ Ù‚Ø§Ø¹Ø¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª...",
+      customer.name
+    );
+
+    if (customer.id && customer.id.toString().startsWith("_")) {
+      // New customer - insert
+      console.log("âž• Ø¥Ø¶Ø§ÙØ© Ø¹Ù…ÙŠÙ„ Ø¬Ø¯ÙŠØ¯");
+      const { data, error } = await sb
+        .from("customers")
+        .insert([
+          {
+            name: customer.name,
+            phone: customer.phone || "",
+            loyalty_points:
+              customer.loyaltyPoints || customer.loyalty_points || 0,
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      console.log("âœ… ØªÙ… Ø­ÙØ¸ Ø§Ù„Ø¹Ù…ÙŠÙ„ Ø§Ù„Ø¬Ø¯ÙŠØ¯:", data);
+      return data;
+    } else {
+      // Existing customer - update
+      console.log("ðŸ”„ ØªØ­Ø¯ÙŠØ« Ø¹Ù…ÙŠÙ„ Ù…ÙˆØ¬ÙˆØ¯");
+      const { data, error } = await sb
+        .from("customers")
+        .update({
+          name: customer.name,
+          phone: customer.phone || "",
+          loyalty_points:
+            customer.loyaltyPoints || customer.loyalty_points || 0,
+        })
+        .eq("id", customer.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      console.log("âœ… ØªÙ… ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø¹Ù…ÙŠÙ„:", data);
+      return data;
+    }
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ Ø­ÙØ¸ Ø§Ù„Ø¹Ù…ÙŠÙ„:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ Ø­ÙØ¸ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø¹Ù…ÙŠÙ„: " + error.message,
+      "error"
+    );
+    throw error;
+  }
+}
+
+// Save order to sb
+async function saveOrderTosb(order) {
+  try {
+    console.log(
+      "ðŸ’¾ Ø­ÙØ¸ Ø§Ù„Ø·Ù„Ø¨ ÙÙŠ Ù‚Ø§Ø¹Ø¯Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª...",
+      order
+    );
+    const { data, error } = await sb
+      .from("orders")
+      .insert([
+        {
+          customer_id: order.customer_id,
+          product_name: order.product,
+          price: order.price,
+          is_free: order.isFree || false,
+          status: "completed",
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    console.log("âœ… ØªÙ… Ø­ÙØ¸ Ø§Ù„Ø·Ù„Ø¨:", data);
+    return data;
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ Ø­ÙØ¸ Ø§Ù„Ø·Ù„Ø¨:", error);
+    showNotification("Ø®Ø·Ø£ ÙÙŠ Ø­ÙØ¸ Ø§Ù„Ø·Ù„Ø¨: " + error.message, "error");
+    throw error;
+  }
+}
+
+// Save pending order to sb
+async function savePendingOrderTosb(order) {
+  try {
+    console.log("ðŸ’¾ Ø­ÙØ¸ Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„Ù…Ø¹Ù„Ù‚...", order);
+    const { data, error } = await sb
+      .from("pending_orders")
+      .insert([
+        {
+          customer_id: order.customerId,
+          customer_name: order.customerName,
+          product_name: order.product,
+          price: order.price,
+          status: "pending",
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    console.log("âœ… ØªÙ… Ø­ÙØ¸ Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„Ù…Ø¹Ù„Ù‚:", data);
+    return data;
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ Ø­ÙØ¸ Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„Ù…Ø¹Ù„Ù‚:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ Ø­ÙØ¸ Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„Ù…Ø¹Ù„Ù‚: " + error.message,
+      "error"
+    );
+    throw error;
+  }
+}
+
+// Save shop order to sb - FIXED VERSION
+async function saveShopOrderTosb(order) {
+  try {
+    console.log("saving shop order", order);
+
+    // ØªØ£ÙƒØ¯ Ù…Ù† ÙˆØ¬ÙˆØ¯ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…Ø·Ù„ÙˆØ¨Ø©
+    if (
+      !order.customerName ||
+      !order.customerPhone ||
+      !order.customerAddress ||
+      !order.items ||
+      !Array.isArray(order.items) ||
+      order.items.length === 0 ||
+      typeof order.total !== "number"
+    ) {
+      throw new Error("invalid order data");
+    }
+
+    const orderData = {
+      customer_name: order.customerName,
+      customer_phone: order.customerPhone,
+      customer_address: order.customerAddress,
+      customer_city: order.customerCity || "",
+      notes: order.notes || "",
+      items: order.items,
+      total: order.total,
+      status: "pending",
+    };
+
+    console.log(
+      "ðŸ“ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ø·Ù„Ø¨ Ù‚Ø¨Ù„ Ø§Ù„Ø¥Ø±Ø³Ø§Ù„:",
+      orderData
+    );
+
+    const { data, error } = await sb
+      .from("shop_orders")
+      .insert([orderData])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("âŒ Ø®Ø·Ø£ Ù…Ù† sb:", error);
+      throw error;
+    }
+
+    console.log("âœ… ØªÙ… Ø­ÙØ¸ Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±:", data);
+    return data;
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ Ø­ÙØ¸ Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ Ø­ÙØ¸ Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±: " + error.message,
+      "error"
+    );
+    throw error;
+  }
+}
+
+// Delete pending order from sb
+async function deletePendingOrderFromsb(orderId) {
+  try {
+    console.log("ðŸ—‘ï¸ Ø­Ø°Ù Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„Ù…Ø¹Ù„Ù‚:", orderId);
+    const { error } = await sb
+      .from("pending_orders")
+      .delete()
+      .eq("id", orderId);
+
+    if (error) throw error;
+
+    console.log("âœ… ØªÙ… Ø­Ø°Ù Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„Ù…Ø¹Ù„Ù‚");
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ Ø­Ø°Ù Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„Ù…Ø¹Ù„Ù‚:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ Ø­Ø°Ù Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„Ù…Ø¹Ù„Ù‚: " + error.message,
+      "error"
+    );
+    throw error;
+  }
+}
+
+// Delete shop order from sb
+async function deleteShopOrderFromsb(orderId) {
+  try {
+    console.log("ðŸ—‘ï¸ Ø­Ø°Ù Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±:", orderId);
+    const { error } = await sb.from("shop_orders").delete().eq("id", orderId);
+
+    if (error) throw error;
+
+    console.log("âœ… ØªÙ… Ø­Ø°Ù Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±");
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ Ø­Ø°Ù Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ Ø­Ø°Ù Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±: " + error.message,
+      "error"
+    );
+    throw error;
+  }
+}
+
+// ===== Customer Functions =====
+async function findOrCreateCustomer(identifier) {
+  try {
+    console.log(
+      "ðŸ” Ø§Ù„Ø¨Ø­Ø« Ø¹Ù† Ø§Ù„Ø¹Ù…ÙŠÙ„ Ø£Ùˆ Ø¥Ù†Ø´Ø§Ø¡ Ø­Ø³Ø§Ø¨ Ø¬Ø¯ÙŠØ¯:",
+      identifier
+    );
+
+    // Reload customers to get latest data
+    await loadCustomers();
+
+    // Try to find existing customer by name or phone
+    let customer = customers.find(
+      (c) =>
+        c.name.toLowerCase() === identifier.toLowerCase() ||
+        c.phone === identifier
+    );
+
+    if (!customer) {
+      console.log("âž• Ø¥Ù†Ø´Ø§Ø¡ Ø¹Ù…ÙŠÙ„ Ø¬Ø¯ÙŠØ¯");
+      // Create new customer locally first
+      customer = {
+        id: generateId(), // Temporary ID
+        name: identifier,
+        phone: identifier.match(/^\d+$/) ? identifier : "",
+        orders: [],
+        loyaltyPoints: 0,
+        loyalty_points: 0,
+      };
+
+      // Save to sb
+      const savedCustomer = await saveCustomerTosb(customer);
+      customer.id = savedCustomer.id;
+      customer.loyalty_points = savedCustomer.loyalty_points;
+
+      customers.unshift(customer);
+      showNotification(
+        `Ù…Ø±Ø­Ø¨Ø§Ù‹ Ø¨Ùƒ ÙÙŠ Twenty One CafeØŒ ${customer.name}! ØªÙ… Ø§Ù†Ø¶Ù…Ø§Ù…Ùƒ Ù„Ø¨Ø±Ù†Ø§Ù…Ø¬ Ø§Ù„Ù…ÙƒØ§ÙØ¢Øª.`
+      );
+    } else {
+      console.log("âœ… ØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ø§Ù„Ø¹Ù…ÙŠÙ„:", customer.name);
+      showNotification(
+        `Ø£Ù‡Ù„Ø§Ù‹ ÙˆØ³Ù‡Ù„Ø§Ù‹ Ø¨Ø¹ÙˆØ¯ØªÙƒØŒ ${customer.name}!`
+      );
+    }
+
+    return customer;
+  } catch (error) {
+    console.error(
+      "âŒ Ø®Ø·Ø£ ÙÙŠ Ø¥Ù†Ø´Ø§Ø¡/Ø§Ù„Ø¨Ø­Ø« Ø¹Ù† Ø§Ù„Ø¹Ù…ÙŠÙ„:",
+      error
+    );
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„: " + error.message,
+      "error"
+    );
+    throw error;
+  }
+}
+
+function updateCustomerDisplay() {
+  if (!currentCustomer) return;
+
+  console.log("ðŸ”„ ØªØ­Ø¯ÙŠØ« Ø¹Ø±Ø¶ Ø§Ù„Ø¹Ù…ÙŠÙ„:", currentCustomer.name);
+
+  const nameDisplays = [
+    document.getElementById("customer-name-display"),
+    document.getElementById("mobile-customer-name-display"),
+  ];
+
+  const stampsDisplays = [
+    document.getElementById("customer-stamps-display"),
+    document.getElementById("mobile-customer-stamps-display"),
+  ];
+
+  const customerStatus = [
+    document.getElementById("customer-status"),
+    document.getElementById("mobile-customer-status"),
+  ];
+
+  nameDisplays.forEach((display) => {
+    if (display) display.textContent = currentCustomer.name;
+  });
+
+  const loyaltyPoints =
+    currentCustomer.loyalty_points || currentCustomer.loyaltyPoints || 0;
+
+  stampsDisplays.forEach((display) => {
+    if (display) {
+      display.innerHTML = "";
+      for (let i = 1; i <= STAMPS_FOR_FREE; i++) {
+        const stamp = document.createElement("div");
+        stamp.className = `w-6 h-6 sm:w-7 sm:h-7 border-2 border-amber-600 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-300 ${
+          loyaltyPoints >= i
+            ? "bg-amber-600 text-white scale-110"
+            : "bg-transparent text-amber-600"
+        }`;
+        stamp.textContent = i;
+        display.appendChild(stamp);
       }
+    }
+  });
 
-      // Load pending orders from Supabase
-      async function loadPendingOrders() {
-        try {
-          console.log('🔄 تحميل الطلبات المعلقة...');
-          const { data, error } = await supabase
-            .from('pending_orders')
-            .select('*')
-            .eq('status', 'pending')
-            .order('created_at', { ascending: false });
+  customerStatus.forEach((status) => {
+    if (status) status.classList.remove("hidden");
+  });
 
-          if (error) {
-            throw error;
-          }
+  // Update dashboard if open
+  updateCustomerDashboard();
+}
 
-          pendingOrders = data || [];
-          console.log(`✅ تم تحميل ${pendingOrders.length} طلب معلق`);
-          renderPendingOrders();
-          
-        } catch (error) {
-          console.error('❌ خطأ في تحميل الطلبات المعلقة:', error);
-          showNotification('خطأ في تحميل الطلبات المعلقة: ' + error.message, 'error');
-          pendingOrders = []; // Fallback to empty array
-        }
-      }
+function updateCustomerDashboard() {
+  if (!currentCustomer) return;
 
-      // Load shop orders from Supabase
-      async function loadShopOrders() {
-        try {
-          console.log('🔄 تحميل طلبات المتجر...');
-          const { data, error } = await supabase
-            .from('shop_orders')
-            .select('*')
-            .eq('status', 'pending')
-            .order('created_at', { ascending: false });
+  const dashboardCustomerName = document.getElementById(
+    "dashboard-customer-name"
+  );
+  if (dashboardCustomerName) {
+    dashboardCustomerName.textContent = currentCustomer.name;
+  }
 
-          if (error) {
-            throw error;
-          }
+  const loyaltyPoints =
+    currentCustomer.loyalty_points || currentCustomer.loyaltyPoints || 0;
 
-          shopOrders = data || [];
-          console.log(`✅ تم تحميل ${shopOrders.length} طلب متجر`);
-          renderShopOrders();
-          
-        } catch (error) {
-          console.error('❌ خطأ في تحميل طلبات المتجر:', error);
-          showNotification('خطأ في تحميل طلبات المتجر: ' + error.message, 'error');
-          shopOrders = []; // Fallback to empty array
-        }
-      }
+  const dashboardLoyaltyCounter = document.getElementById(
+    "dashboard-loyalty-counter"
+  );
+  if (dashboardLoyaltyCounter) {
+    dashboardLoyaltyCounter.textContent = `${loyaltyPoints}/${STAMPS_FOR_FREE}`;
+  }
 
-      // Load custom products from Supabase
-      async function loadCustomProducts() {
-        try {
-          console.log('🔄 تحميل المنتجات المخصصة...');
-          const { data, error } = await supabase
-            .from('custom_products')
-            .select('*')
-            .order('created_at', { ascending: false });
+  const progress = (loyaltyPoints / STAMPS_FOR_FREE) * 100;
+  const dashboardLoyaltyProgress = document.getElementById(
+    "dashboard-loyalty-progress"
+  );
+  if (dashboardLoyaltyProgress) {
+    dashboardLoyaltyProgress.style.width = `${Math.min(progress, 100)}%`;
+  }
 
-          if (error) {
-            throw error;
-          }
+  // Render stamps grid
+  const stampsGrid = document.getElementById("dashboard-stamps-grid");
+  if (stampsGrid) {
+    stampsGrid.innerHTML = "";
+    for (let i = 1; i <= STAMPS_FOR_FREE; i++) {
+      const stamp = document.createElement("div");
+      stamp.className = `stamp-circle ${loyaltyPoints >= i ? "filled" : ""}`;
+      stamp.textContent = i;
+      stampsGrid.appendChild(stamp);
+    }
+  }
 
-          customProducts = data || [];
-          console.log(`✅ تم تحميل ${customProducts.length} منتج مخصص`);
-          updateProductSelect();
-          
-        } catch (error) {
-          console.error('❌ خطأ في تحميل المنتجات المخصصة:', error);
-          showNotification('خطأ في تحميل المنتجات المخصصة: ' + error.message, 'error');
-          customProducts = []; // Fallback to empty array
-        }
-      }
+  // Render order history
+  const orderHistory = document.getElementById("dashboard-order-history");
+  if (orderHistory) {
+    orderHistory.innerHTML = "";
 
-      // Save customer to Supabase
-      async function saveCustomerToSupabase(customer) {
-        try {
-          console.log('💾 حفظ العميل في قاعدة البيانات...', customer.name);
-          
-          if (customer.id && customer.id.toString().startsWith('_')) {
-            // New customer - insert
-            console.log('➕ إضافة عميل جديد');
-            const { data, error } = await supabase
-              .from('customers')
-              .insert([{
-                name: customer.name,
-                phone: customer.phone || '',
-                loyalty_points: customer.loyaltyPoints || customer.loyalty_points || 0
-              }])
-              .select()
-              .single();
-
-            if (error) throw error;
-            
-            console.log('✅ تم حفظ العميل الجديد:', data);
-            return data;
-          } else {
-            // Existing customer - update
-            console.log('🔄 تحديث عميل موجود');
-            const { data, error } = await supabase
-              .from('customers')
-              .update({
-                name: customer.name,
-                phone: customer.phone || '',
-                loyalty_points: customer.loyaltyPoints || customer.loyalty_points || 0
-              })
-              .eq('id', customer.id)
-              .select()
-              .single();
-
-            if (error) throw error;
-            
-            console.log('✅ تم تحديث العميل:', data);
-            return data;
-          }
-        } catch (error) {
-          console.error('❌ خطأ في حفظ العميل:', error);
-          showNotification('خطأ في حفظ بيانات العميل: ' + error.message, 'error');
-          throw error;
-        }
-      }
-
-      // Save order to Supabase
-      async function saveOrderToSupabase(order) {
-        try {
-          console.log('💾 حفظ الطلب في قاعدة البيانات...', order);
-          const { data, error } = await supabase
-            .from('orders')
-            .insert([{
-              customer_id: order.customer_id,
-              product_name: order.product,
-              price: order.price,
-              is_free: order.isFree || false,
-              status: 'completed'
-            }])
-            .select()
-            .single();
-
-          if (error) throw error;
-          
-          console.log('✅ تم حفظ الطلب:', data);
-          return data;
-          
-        } catch (error) {
-          console.error('❌ خطأ في حفظ الطلب:', error);
-          showNotification('خطأ في حفظ الطلب: ' + error.message, 'error');
-          throw error;
-        }
-      }
-
-      // Save pending order to Supabase
-      async function savePendingOrderToSupabase(order) {
-        try {
-          console.log('💾 حفظ الطلب المعلق...', order);
-          const { data, error } = await supabase
-            .from('pending_orders')
-            .insert([{
-              customer_id: order.customerId,
-              customer_name: order.customerName,
-              product_name: order.product,
-              price: order.price,
-              status: 'pending'
-            }])
-            .select()
-            .single();
-
-          if (error) throw error;
-          
-          console.log('✅ تم حفظ الطلب المعلق:', data);
-          return data;
-          
-        } catch (error) {
-          console.error('❌ خطأ في حفظ الطلب المعلق:', error);
-          showNotification('خطأ في حفظ الطلب المعلق: ' + error.message, 'error');
-          throw error;
-        }
-      }
-
-      // Save shop order to Supabase - FIXED VERSION
-      async function saveShopOrderToSupabase(order) {
-        try {
-          console.log('💾 حفظ طلب المتجر...', order);
-          
-          // تأكد من وجود جميع البيانات المطلوبة
-          if (!order.customerName || !order.customerPhone || !order.customerAddress || 
-              !order.items || !Array.isArray(order.items) || order.items.length === 0 || 
-              typeof order.total !== 'number') {
-            throw new Error('بيانات الطلب غير مكتملة');
-          }
-
-          const orderData = {
-            customer_name: order.customerName,
-            customer_phone: order.customerPhone,
-            customer_address: order.customerAddress,
-            customer_city: order.customerCity || '',
-            notes: order.notes || '',
-            items: order.items,
-            total: order.total,
-            status: 'pending'
-          };
-
-          console.log('📝 بيانات الطلب قبل الإرسال:', orderData);
-
-          const { data, error } = await supabase
-            .from('shop_orders')
-            .insert([orderData])
-            .select()
-            .single();
-
-          if (error) {
-            console.error('❌ خطأ من Supabase:', error);
-            throw error;
-          }
-          
-          console.log('✅ تم حفظ طلب المتجر:', data);
-          return data;
-          
-        } catch (error) {
-          console.error('❌ خطأ في حفظ طلب المتجر:', error);
-          showNotification('خطأ في حفظ طلب المتجر: ' + error.message, 'error');
-          throw error;
-        }
-      }
-
-      // Delete pending order from Supabase
-      async function deletePendingOrderFromSupabase(orderId) {
-        try {
-          console.log('🗑️ حذف الطلب المعلق:', orderId);
-          const { error } = await supabase
-            .from('pending_orders')
-            .delete()
-            .eq('id', orderId);
-
-          if (error) throw error;
-          
-          console.log('✅ تم حذف الطلب المعلق');
-          
-        } catch (error) {
-          console.error('❌ خطأ في حذف الطلب المعلق:', error);
-          showNotification('خطأ في حذف الطلب المعلق: ' + error.message, 'error');
-          throw error;
-        }
-      }
-
-      // Delete shop order from Supabase
-      async function deleteShopOrderFromSupabase(orderId) {
-        try {
-          console.log('🗑️ حذف طلب المتجر:', orderId);
-          const { error } = await supabase
-            .from('shop_orders')
-            .delete()
-            .eq('id', orderId);
-
-          if (error) throw error;
-          
-          console.log('✅ تم حذف طلب المتجر');
-          
-        } catch (error) {
-          console.error('❌ خطأ في حذف طلب المتجر:', error);
-          showNotification('خطأ في حذف طلب المتجر: ' + error.message, 'error');
-          throw error;
-        }
-      }
-
-      // ===== Customer Functions =====
-      async function findOrCreateCustomer(identifier) {
-        try {
-          console.log('🔍 البحث عن العميل أو إنشاء حساب جديد:', identifier);
-          
-          // Reload customers to get latest data
-          await loadCustomers();
-          
-          // Try to find existing customer by name or phone
-          let customer = customers.find(
-            (c) =>
-              c.name.toLowerCase() === identifier.toLowerCase() ||
-              c.phone === identifier
-          );
-
-          if (!customer) {
-            console.log('➕ إنشاء عميل جديد');
-            // Create new customer locally first
-            customer = {
-              id: generateId(), // Temporary ID
-              name: identifier,
-              phone: identifier.match(/^\d+$/) ? identifier : "",
-              orders: [],
-              loyaltyPoints: 0,
-              loyalty_points: 0,
-            };
-
-            // Save to Supabase
-            const savedCustomer = await saveCustomerToSupabase(customer);
-            customer.id = savedCustomer.id;
-            customer.loyalty_points = savedCustomer.loyalty_points;
-            
-            customers.unshift(customer);
-            showNotification(`مرحباً بك في Twenty One Cafe، ${customer.name}! تم انضمامك لبرنامج المكافآت.`);
-          } else {
-            console.log('✅ تم العثور على العميل:', customer.name);
-            showNotification(`أهلاً وسهلاً بعودتك، ${customer.name}!`);
-          }
-
-          return customer;
-        } catch (error) {
-          console.error('❌ خطأ في إنشاء/البحث عن العميل:', error);
-          showNotification('خطأ في تسجيل الدخول: ' + error.message, 'error');
-          throw error;
-        }
-      }
-
-      function updateCustomerDisplay() {
-        if (!currentCustomer) return;
-
-        console.log('🔄 تحديث عرض العميل:', currentCustomer.name);
-        
-        const nameDisplays = [
-          document.getElementById("customer-name-display"),
-          document.getElementById("mobile-customer-name-display"),
-        ];
-
-        const stampsDisplays = [
-          document.getElementById("customer-stamps-display"),
-          document.getElementById("mobile-customer-stamps-display"),
-        ];
-
-        const customerStatus = [
-          document.getElementById("customer-status"),
-          document.getElementById("mobile-customer-status"),
-        ];
-
-        nameDisplays.forEach((display) => {
-          if (display) display.textContent = currentCustomer.name;
-        });
-
-        const loyaltyPoints = currentCustomer.loyalty_points || currentCustomer.loyaltyPoints || 0;
-
-        stampsDisplays.forEach((display) => {
-          if (display) {
-            display.innerHTML = "";
-            for (let i = 1; i <= STAMPS_FOR_FREE; i++) {
-              const stamp = document.createElement("div");
-              stamp.className = `w-6 h-6 sm:w-7 sm:h-7 border-2 border-amber-600 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-300 ${
-                loyaltyPoints >= i
-                  ? "bg-amber-600 text-white scale-110"
-                  : "bg-transparent text-amber-600"
-              }`;
-              stamp.textContent = i;
-              display.appendChild(stamp);
-            }
-          }
-        });
-
-        customerStatus.forEach((status) => {
-          if (status) status.classList.remove("hidden");
-        });
-
-        // Update dashboard if open
-        updateCustomerDashboard();
-      }
-
-      function updateCustomerDashboard() {
-        if (!currentCustomer) return;
-
-        const dashboardCustomerName = document.getElementById("dashboard-customer-name");
-        if (dashboardCustomerName) {
-          dashboardCustomerName.textContent = currentCustomer.name;
-        }
-        
-        const loyaltyPoints = currentCustomer.loyalty_points || currentCustomer.loyaltyPoints || 0;
-        
-        const dashboardLoyaltyCounter = document.getElementById("dashboard-loyalty-counter");
-        if (dashboardLoyaltyCounter) {
-          dashboardLoyaltyCounter.textContent = `${loyaltyPoints}/${STAMPS_FOR_FREE}`;
-        }
-
-        const progress = (loyaltyPoints / STAMPS_FOR_FREE) * 100;
-        const dashboardLoyaltyProgress = document.getElementById("dashboard-loyalty-progress");
-        if (dashboardLoyaltyProgress) {
-          dashboardLoyaltyProgress.style.width = `${Math.min(progress, 100)}%`;
-        }
-
-        // Render stamps grid
-        const stampsGrid = document.getElementById("dashboard-stamps-grid");
-        if (stampsGrid) {
-          stampsGrid.innerHTML = "";
-          for (let i = 1; i <= STAMPS_FOR_FREE; i++) {
-            const stamp = document.createElement("div");
-            stamp.className = `stamp-circle ${loyaltyPoints >= i ? "filled" : ""}`;
-            stamp.textContent = i;
-            stampsGrid.appendChild(stamp);
-          }
-        }
-
-        // Render order history
-        const orderHistory = document.getElementById("dashboard-order-history");
-        if (orderHistory) {
-          orderHistory.innerHTML = "";
-
-          const recentOrders = (currentCustomer.orders || []).slice(-10).reverse();
-          recentOrders.forEach((order) => {
-            const orderDiv = document.createElement("div");
-            orderDiv.className = "bg-white/80 backdrop-blur-sm p-4 rounded-xl flex justify-between items-center shadow-md";
-            orderDiv.innerHTML = `
+    const recentOrders = (currentCustomer.orders || []).slice(-10).reverse();
+    recentOrders.forEach((order) => {
+      const orderDiv = document.createElement("div");
+      orderDiv.className =
+        "bg-white/80 backdrop-blur-sm p-4 rounded-xl flex justify-between items-center shadow-md";
+      orderDiv.innerHTML = `
               <div>
-                <div class="font-semibold text-amber-900 text-lg">${order.product_name || order.product}</div>
-                <div class="text-sm text-amber-700">${new Date(order.created_at || order.date).toLocaleDateString()}</div>
+                <div class="font-semibold text-amber-900 text-lg">${
+                  order.product_name || order.product
+                }</div>
+                <div class="text-sm text-amber-700">${new Date(
+                  order.created_at || order.date
+                ).toLocaleDateString()}</div>
               </div>
               <div class="text-right">
-                <div class="font-bold text-lg ${order.is_free || order.isFree ? "text-emerald-600" : "text-amber-900"}">
-                  ${order.is_free || order.isFree ? "مجاني" : formatPrice(order.price)}
+                <div class="font-bold text-lg ${
+                  order.is_free || order.isFree
+                    ? "text-emerald-600"
+                    : "text-amber-900"
+                }">
+                  ${
+                    order.is_free || order.isFree
+                      ? "Ù…Ø¬Ø§Ù†ÙŠ"
+                      : formatPrice(order.price)
+                  }
                 </div>
-                ${order.is_free || order.isFree ? '<span class="text-xs text-emerald-600">🎉 مكافأة ولاء</span>' : ""}
+                ${
+                  order.is_free || order.isFree
+                    ? '<span class="text-xs text-emerald-600">ðŸŽ‰ Ù…ÙƒØ§ÙØ£Ø© ÙˆÙ„Ø§Ø¡</span>'
+                    : ""
+                }
               </div>
             `;
-            orderHistory.appendChild(orderDiv);
-          });
-        }
+      orderHistory.appendChild(orderDiv);
+    });
+  }
+}
+
+function customerLogout() {
+  console.log("ðŸ‘‹ ØªØ³Ø¬ÙŠÙ„ Ø®Ø±ÙˆØ¬ Ø§Ù„Ø¹Ù…ÙŠÙ„");
+  currentCustomer = null;
+  const customerStatus = document.getElementById("customer-status");
+  const mobileCustomerStatus = document.getElementById(
+    "mobile-customer-status"
+  );
+  const customerDashboard = document.getElementById("customer-dashboard");
+
+  if (customerStatus) customerStatus.classList.add("hidden");
+  if (mobileCustomerStatus) mobileCustomerStatus.classList.add("hidden");
+  if (customerDashboard) customerDashboard.classList.add("hidden");
+
+  showNotification("ØªÙ… ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø®Ø±ÙˆØ¬ Ø¨Ù†Ø¬Ø§Ø­");
+}
+
+// ===== Shopping Cart Functions (Local Storage for Cart Only) =====
+function saveShoppingCart() {
+  localStorage.setItem("cafeShoppingCart", JSON.stringify(shoppingCart));
+  updateCartDisplay();
+}
+
+function loadShoppingCart() {
+  try {
+    const stored = localStorage.getItem("cafeShoppingCart");
+    if (stored) {
+      shoppingCart = JSON.parse(stored);
+    }
+    updateCartDisplay();
+  } catch (error) {
+    console.error("❌ Error loading shopping cart:", error);
+    shoppingCart = [];
+    updateCartDisplay();
+  }
+}
+
+function addToCart(name, price, image) {
+  console.log("🛒 Adding to cart:", name);
+  const existingItem = shoppingCart.find((item) => item.name === name);
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    shoppingCart.push({
+      id: generateId(),
+      name: name,
+      price: price,
+      image: image,
+      quantity: 1,
+    });
+  }
+
+  saveShoppingCart();
+  showNotification(`${name} added to cart!`);
+}
+
+function removeFromCart(itemId) {
+  console.log("🗑️ Removing from cart:", itemId);
+  shoppingCart = shoppingCart.filter((item) => item.id !== itemId);
+  saveShoppingCart();
+  renderCartItems();
+}
+
+function updateQuantity(itemId, newQuantity) {
+  console.log("🔢 Updating quantity:", itemId, newQuantity);
+  if (newQuantity <= 0) {
+    removeFromCart(itemId);
+    return;
+  }
+
+  const item = shoppingCart.find((item) => item.id === itemId);
+  if (item) {
+    item.quantity = newQuantity;
+    saveShoppingCart();
+    renderCartItems();
+  }
+}
+
+function updateCartDisplay() {
+  const cartBadges = [
+    document.getElementById("cart-badge"),
+    document.getElementById("mobile-cart-badge"),
+  ];
+
+  const totalItems = shoppingCart.reduce((sum, item) => sum + item.quantity, 0);
+
+  cartBadges.forEach((badge) => {
+    if (badge) {
+      if (totalItems > 0) {
+        badge.textContent = totalItems;
+        badge.classList.remove("hidden");
+      } else {
+        badge.classList.add("hidden");
       }
+    }
+  });
+}
 
-      function customerLogout() {
-        console.log('👋 تسجيل خروج العميل');
-        currentCustomer = null;
-        const customerStatus = document.getElementById("customer-status");
-        const mobileCustomerStatus = document.getElementById("mobile-customer-status");
-        const customerDashboard = document.getElementById("customer-dashboard");
-        
-        if (customerStatus) customerStatus.classList.add("hidden");
-        if (mobileCustomerStatus) mobileCustomerStatus.classList.add("hidden");
-        if (customerDashboard) customerDashboard.classList.add("hidden");
-        
-        showNotification("تم تسجيل الخروج بنجاح");
-      }
+function toggleCart() {
+  const cartModal = document.getElementById("cart-modal");
+  if (cartModal) {
+    cartModal.classList.toggle("hidden");
+    cartModal.classList.toggle("flex");
+    renderCartItems();
+  }
+}
 
-      // ===== Shopping Cart Functions (Local Storage for Cart Only) =====
-      function saveShoppingCart() {
-        localStorage.setItem("cafeShoppingCart", JSON.stringify(shoppingCart));
-        updateCartDisplay();
-      }
+function renderCartItems() {
+  const container = document.getElementById("cart-items-container");
+  const totalElement = document.getElementById("cart-total-amount");
 
-      function loadShoppingCart() {
-        try {
-          const stored = localStorage.getItem("cafeShoppingCart");
-          if (stored) {
-            shoppingCart = JSON.parse(stored);
-          }
-          updateCartDisplay();
-        } catch (error) {
-          console.error('❌ خطأ في تحميل سلة التسوق:', error);
-          shoppingCart = [];
-          updateCartDisplay();
-        }
-      }
+  if (!container || !totalElement) {
+    console.error("❌ Cart elements not found");
+    return;
+  }
 
-      function addToCart(name, price, image) {
-        console.log('🛒 إضافة إلى السلة:', name);
-        const existingItem = shoppingCart.find((item) => item.name === name);
+  if (shoppingCart.length === 0) {
+    container.innerHTML =
+      '<p class="text-center text-amber-700 text-lg">Shopping cart is empty</p>';
+    totalElement.textContent = "0";
+    return;
+  }
 
-        if (existingItem) {
-          existingItem.quantity += 1;
-        } else {
-          shoppingCart.push({
-            id: generateId(),
-            name: name,
-            price: price,
-            image: image,
-            quantity: 1,
-          });
-        }
+  let total = 0;
+  container.innerHTML = "";
 
-        saveShoppingCart();
-        showNotification(`تم إضافة ${name} إلى السلة!`);
-      }
+  shoppingCart.forEach((item) => {
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
 
-      function removeFromCart(itemId) {
-        console.log('🗑️ إزالة من السلة:', itemId);
-        shoppingCart = shoppingCart.filter((item) => item.id !== itemId);
-        saveShoppingCart();
-        renderCartItems();
-      }
-
-      function updateQuantity(itemId, newQuantity) {
-        console.log('🔢 تحديث الكمية:', itemId, newQuantity);
-        if (newQuantity <= 0) {
-          removeFromCart(itemId);
-          return;
-        }
-
-        const item = shoppingCart.find((item) => item.id === itemId);
-        if (item) {
-          item.quantity = newQuantity;
-          saveShoppingCart();
-          renderCartItems();
-        }
-      }
-
-      function updateCartDisplay() {
-        const cartBadges = [
-          document.getElementById("cart-badge"),
-          document.getElementById("mobile-cart-badge"),
-        ];
-
-        const totalItems = shoppingCart.reduce(
-          (sum, item) => sum + item.quantity,
-          0
-        );
-
-        cartBadges.forEach((badge) => {
-          if (badge) {
-            if (totalItems > 0) {
-              badge.textContent = totalItems;
-              badge.classList.remove("hidden");
-            } else {
-              badge.classList.add("hidden");
-            }
-          }
-        });
-      }
-
-      function toggleCart() {
-        const cartModal = document.getElementById("cart-modal");
-        if (cartModal) {
-          cartModal.classList.toggle("hidden");
-          cartModal.classList.toggle("flex");
-          renderCartItems();
-        }
-      }
-
-      function renderCartItems() {
-        const container = document.getElementById("cart-items-container");
-        const totalElement = document.getElementById("cart-total-amount");
-
-        if (!container || !totalElement) {
-          console.error('❌ عناصر السلة غير موجودة');
-          return;
-        }
-
-        if (shoppingCart.length === 0) {
-          container.innerHTML =
-            '<p class="text-center text-amber-700 text-lg">سلة التسوق فارغة</p>';
-          totalElement.textContent = "0";
-          return;
-        }
-
-        let total = 0;
-        container.innerHTML = "";
-
-        shoppingCart.forEach((item) => {
-          const itemTotal = item.price * item.quantity;
-          total += itemTotal;
-
-          const cartItemDiv = document.createElement("div");
-          cartItemDiv.className = "cart-item";
-          cartItemDiv.innerHTML = `
+    const cartItemDiv = document.createElement("div");
+    cartItemDiv.className = "cart-item";
+    cartItemDiv.innerHTML = `
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-              <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-lg object-cover">
+              <img src="${item.image}" alt="${
+      item.name
+    }" class="w-12 h-12 rounded-lg object-cover">
               <div class="flex-1 min-w-0">
-                <h4 class="font-semibold text-amber-900 text-sm sm:text-base truncate">${item.name}</h4>
-                <p class="text-amber-700 text-xs sm:text-sm">${formatPrice(item.price)} للواحد</p>
+                <h4 class="font-semibold text-amber-900 text-sm sm:text-base truncate">${
+                  item.name
+                }</h4>
+                <p class="text-amber-700 text-xs sm:text-sm">${formatPrice(
+                  item.price
+                )} each</p>
               </div>
               <div class="flex items-center gap-2 sm:gap-3">
-                <button class="quantity-btn text-sm" onclick="updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
-                <span class="w-6 sm:w-8 text-center font-semibold text-sm sm:text-base">${item.quantity}</span>
-                <button class="quantity-btn text-sm" onclick="updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                <button class="quantity-btn text-sm" onclick="updateQuantity('${
+                  item.id
+                }', ${item.quantity - 1})">-</button>
+                <span class="w-6 sm:w-8 text-center font-semibold text-sm sm:text-base">${
+                  item.quantity
+                }</span>
+                <button class="quantity-btn text-sm" onclick="updateQuantity('${
+                  item.id
+                }', ${item.quantity + 1})">+</button>
               </div>
               <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-3">
-                <p class="font-bold text-amber-900 text-sm sm:text-base">${formatPrice(itemTotal)}</p>
-                <button onclick="removeFromCart('${item.id}')" class="text-red-600 hover:text-red-800 text-sm p-1">
+                <p class="font-bold text-amber-900 text-sm sm:text-base">${formatPrice(
+                  itemTotal
+                )}</p>
+                <button onclick="removeFromCart('${
+                  item.id
+                }')" class="text-red-600 hover:text-red-800 text-sm p-1">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
             </div>
           `;
-          container.appendChild(cartItemDiv);
-        });
+    container.appendChild(cartItemDiv);
+  });
 
-        totalElement.textContent = formatPrice(total);
-      }
+  totalElement.textContent = formatPrice(total);
+}
 
-      function proceedToCheckout() {
-        if (shoppingCart.length === 0) {
-          showNotification("سلة التسوق فارغة!", "error");
-          return;
-        }
+function proceedToCheckout() {
+  if (shoppingCart.length === 0) {
+    showNotification("Shopping cart is empty!", "error");
+    return;
+  }
 
-        console.log('🛒 الانتقال إلى صفحة الدفع');
-        
-        const cartModal = document.getElementById("cart-modal");
-        if (cartModal) {
-          cartModal.classList.add("hidden");
-          cartModal.classList.remove("flex");
-        }
+  console.log("🛒 Proceeding to checkout");
 
-        // Populate checkout summary
-        const checkoutItemsList = document.getElementById("checkout-items-list");
-        const checkoutTotalAmount = document.getElementById("checkout-total-amount");
+  const cartModal = document.getElementById("cart-modal");
+  if (cartModal) {
+    cartModal.classList.add("hidden");
+    cartModal.classList.remove("flex");
+  }
 
-        if (!checkoutItemsList || !checkoutTotalAmount) {
-          console.error('❌ عناصر صفحة الدفع غير موجودة');
-          return;
-        }
+  // Populate checkout summary
+  const checkoutItemsList = document.getElementById("checkout-items-list");
+  const checkoutTotalAmount = document.getElementById("checkout-total-amount");
 
-        let total = 0;
-        checkoutItemsList.innerHTML = "";
+  if (!checkoutItemsList || !checkoutTotalAmount) {
+    console.error("❌ Checkout elements not found");
+    return;
+  }
 
-        shoppingCart.forEach((item) => {
-          const itemTotal = item.price * item.quantity;
-          total += itemTotal;
+  let total = 0;
+  checkoutItemsList.innerHTML = "";
 
-          const itemDiv = document.createElement("div");
-          itemDiv.className = "flex justify-between text-amber-800 text-sm sm:text-base";
-          itemDiv.innerHTML = `
-            <span class="truncate pr-2">${item.name} × ${item.quantity}</span>
+  shoppingCart.forEach((item) => {
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
+
+    const itemDiv = document.createElement("div");
+    itemDiv.className =
+      "flex justify-between text-amber-800 text-sm sm:text-base";
+    itemDiv.innerHTML = `
+            <span class="truncate pr-2">${item.name} Ã— ${item.quantity}</span>
             <span class="font-semibold">${formatPrice(itemTotal)}</span>
           `;
-          checkoutItemsList.appendChild(itemDiv);
-        });
+    checkoutItemsList.appendChild(itemDiv);
+  });
 
-        checkoutTotalAmount.textContent = formatPrice(total);
+  checkoutTotalAmount.textContent = formatPrice(total);
 
-        const checkoutModal = document.getElementById("checkout-modal");
-        if (checkoutModal) {
-          checkoutModal.classList.remove("hidden");
-          checkoutModal.classList.add("flex");
-        }
+  const checkoutModal = document.getElementById("checkout-modal");
+  if (checkoutModal) {
+    checkoutModal.classList.remove("hidden");
+    checkoutModal.classList.add("flex");
+  }
+}
+
+async function submitOrder() {
+  console.log("💳 Submitting order");
+
+  const nameInput = document.getElementById("checkout-name");
+  const phoneInput = document.getElementById("checkout-phone");
+  const cityInput = document.getElementById("checkout-city");
+  const addressInput = document.getElementById("checkout-address");
+  const notesInput = document.getElementById("checkout-notes");
+
+  if (!nameInput || !phoneInput || !cityInput || !addressInput || !notesInput) {
+    console.error("❌ Form elements not found");
+    showNotification("Form error - please reload page", "error");
+    return;
+  }
+
+  const name = nameInput.value.trim();
+  const phone = phoneInput.value.trim();
+  const city = cityInput.value.trim();
+  const address = addressInput.value.trim();
+  const notes = notesInput.value.trim();
+
+  if (!name || !phone || !city || !address) {
+    showNotification("Please fill all required fields", "error");
+    return;
+  }
+
+  if (shoppingCart.length === 0) {
+    showNotification("Shopping cart is empty!", "error");
+    return;
+  }
+
+  try {
+    // Show loading
+    const submitBtn = document.querySelector(
+      '#checkout-form button[type="submit"]'
+    );
+    if (submitBtn) {
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML =
+        '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+      submitBtn.disabled = true;
+
+      const order = {
+        customerName: name,
+        customerPhone: phone,
+        customerCity: city,
+        customerAddress: address,
+        notes: notes,
+        items: [...shoppingCart],
+        total: shoppingCart.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0
+        ),
+      };
+
+      console.log("📤 Sending shop order:", order);
+
+      // Save to sb
+      const savedOrder = await saveShopOrderTosb(order);
+
+      // Update local array and render
+      shopOrders.unshift(savedOrder);
+      renderShopOrders();
+
+      // Clear cart and close modal
+      shoppingCart = [];
+      saveShoppingCart();
+
+      const checkoutModal = document.getElementById("checkout-modal");
+      if (checkoutModal) {
+        checkoutModal.classList.add("hidden");
+        checkoutModal.classList.remove("flex");
       }
 
-      async function submitOrder() {
-        console.log('💳 تقديم طلب الشراء');
-        
-        const nameInput = document.getElementById("checkout-name");
-        const phoneInput = document.getElementById("checkout-phone");
-        const cityInput = document.getElementById("checkout-city");
-        const addressInput = document.getElementById("checkout-address");
-        const notesInput = document.getElementById("checkout-notes");
-
-        if (!nameInput || !phoneInput || !cityInput || !addressInput || !notesInput) {
-          console.error('❌ عناصر النموذج غير موجودة');
-          showNotification("خطأ في النموذج - يرجى إعادة تحميل الصفحة", "error");
-          return;
-        }
-
-        const name = nameInput.value.trim();
-        const phone = phoneInput.value.trim();
-        const city = cityInput.value.trim();
-        const address = addressInput.value.trim();
-        const notes = notesInput.value.trim();
-
-        if (!name || !phone || !city || !address) {
-          showNotification("يرجى ملء جميع الحقول المطلوبة", "error");
-          return;
-        }
-
-        if (shoppingCart.length === 0) {
-          showNotification("سلة التسوق فارغة!", "error");
-          return;
-        }
-
-        try {
-          // Show loading
-          const submitBtn = document.querySelector('#checkout-form button[type="submit"]');
-          if (submitBtn) {
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>جاري الإرسال...';
-            submitBtn.disabled = true;
-
-            const order = {
-              customerName: name,
-              customerPhone: phone,
-              customerCity: city,
-              customerAddress: address,
-              notes: notes,
-              items: [...shoppingCart],
-              total: shoppingCart.reduce(
-                (sum, item) => sum + item.price * item.quantity,
-                0
-              ),
-            };
-
-            console.log('📤 إرسال طلب المتجر:', order);
-
-            // Save to Supabase
-            const savedOrder = await saveShopOrderToSupabase(order);
-            
-            // Update local array and render
-            shopOrders.unshift(savedOrder);
-            renderShopOrders();
-
-            // Clear cart and close modal
-            shoppingCart = [];
-            saveShoppingCart();
-
-            const checkoutModal = document.getElementById("checkout-modal");
-            if (checkoutModal) {
-              checkoutModal.classList.add("hidden");
-              checkoutModal.classList.remove("flex");
-            }
-
-            // Reset form
-            const checkoutForm = document.getElementById("checkout-form");
-            if (checkoutForm) {
-              checkoutForm.reset();
-            }
-
-            showNotification("تم تقديم طلبك بنجاح! سنتواصل معك قريباً.");
-
-            // Restore button
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-          }
-          
-        } catch (error) {
-          console.error('❌ خطأ في تقديم الطلب:', error);
-          showNotification("خطأ في تقديم الطلب: " + error.message, "error");
-          
-          // Restore button
-          const submitBtn = document.querySelector('#checkout-form button[type="submit"]');
-          if (submitBtn) {
-            submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i>تأكيد الشراء';
-            submitBtn.disabled = false;
-          }
-        }
+      // Reset form
+      const checkoutForm = document.getElementById("checkout-form");
+      if (checkoutForm) {
+        checkoutForm.reset();
       }
 
-      // ===== Product Modal Functions =====
-      let currentProduct = null;
+      showNotification(
+        "Order submitted successfully! We will contact you soon."
+      );
 
-      function showProductModal(productData) {
-        console.log('👀 عرض تفاصيل المنتج:', productData.name);
-        
-        currentProduct = productData;
-        
-        const productModalImage = document.getElementById("product-modal-image");
-        const productModalTitle = document.getElementById("product-modal-title");
-        const productModalPrice = document.getElementById("product-modal-price");
-        const productModalDescription = document.getElementById("product-modal-description");
-        const productModal = document.getElementById("product-modal");
+      // Restore button
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ ØªÙ‚Ø¯ÙŠÙ… Ø§Ù„Ø·Ù„Ø¨:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ ØªÙ‚Ø¯ÙŠÙ… Ø§Ù„Ø·Ù„Ø¨: " + error.message,
+      "error"
+    );
 
-        if (productModalImage) {
-          productModalImage.src = productData.image;
-          productModalImage.alt = productData.name;
-        }
-        if (productModalTitle) productModalTitle.textContent = productData.name;
-        if (productModalPrice) productModalPrice.textContent = productData.price + " IQD";
-        if (productModalDescription) productModalDescription.textContent = productData.description;
+    // Restore button
+    const submitBtn = document.querySelector(
+      '#checkout-form button[type="submit"]'
+    );
+    if (submitBtn) {
+      submitBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Confirm Order';
+      submitBtn.disabled = false;
+    }
+  }
+}
 
-        if (productModal) {
-          productModal.classList.remove("hidden");
-          productModal.classList.add("flex");
-        }
-      }
+// ===== Product Modal Functions =====
+let currentProduct = null;
 
-      function closeProductModal() {
-        const productModal = document.getElementById("product-modal");
-        if (productModal) {
-          productModal.classList.add("hidden");
-          productModal.classList.remove("flex");
-        }
-        currentProduct = null;
-      }
+function showProductModal(productData) {
+  console.log("ðŸ‘€ Ø¹Ø±Ø¶ ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ù…Ù†ØªØ¬:", productData.name);
 
-      async function orderNow() {
-        console.log('🛍️ طلب المنتج الآن');
-        
-        if (!currentCustomer) {
-          showNotification("يرجى تسجيل الدخول أولاً لتقديم الطلب", "error");
-          closeProductModal();
-          const customerModal = document.getElementById("customer-modal");
-          if (customerModal) {
-            customerModal.classList.remove("hidden");
-            customerModal.classList.add("flex");
-          }
-          return;
-        }
+  currentProduct = productData;
 
-        if (!currentProduct) return;
+  const productModalImage = document.getElementById("product-modal-image");
+  const productModalTitle = document.getElementById("product-modal-title");
+  const productModalPrice = document.getElementById("product-modal-price");
+  const productModalDescription = document.getElementById(
+    "product-modal-description"
+  );
+  const productModal = document.getElementById("product-modal");
 
-        try {
-          // Show loading
-          const orderBtn = document.getElementById("order-now-btn");
-          if (orderBtn) {
-            const originalText = orderBtn.innerHTML;
-            orderBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>جاري الطلب...';
-            orderBtn.disabled = true;
+  if (productModalImage) {
+    productModalImage.src = productData.image;
+    productModalImage.alt = productData.name;
+  }
+  if (productModalTitle) productModalTitle.textContent = productData.name;
+  if (productModalPrice)
+    productModalPrice.textContent = productData.price + " IQD";
+  if (productModalDescription)
+    productModalDescription.textContent = productData.description;
 
-            // Create pending order
-            const newOrder = {
-              customerId: currentCustomer.id,
-              customerName: currentCustomer.name,
-              product: currentProduct.name,
-              price: currentProduct.priceNum,
-            };
+  if (productModal) {
+    productModal.classList.remove("hidden");
+    productModal.classList.add("flex");
+  }
+}
 
-            // Save to Supabase
-            const savedOrder = await savePendingOrderToSupabase(newOrder);
-            
-            // Update local array
-            pendingOrders.unshift(savedOrder);
-            renderPendingOrders();
+function closeProductModal() {
+  const productModal = document.getElementById("product-modal");
+  if (productModal) {
+    productModal.classList.add("hidden");
+    productModal.classList.remove("flex");
+  }
+  currentProduct = null;
+}
 
-            showNotification(`تم تقديم الطلب: ${currentProduct.name}. في انتظار تأكيد الموظف.`);
-            closeProductModal();
+async function orderNow() {
+  console.log("ðŸ›ï¸ Ø·Ù„Ø¨ Ø§Ù„Ù…Ù†ØªØ¬ Ø§Ù„Ø¢Ù†");
 
-            // Restore button
-            orderBtn.innerHTML = '<i class="fas fa-shopping-bag mr-2"></i>اطلب الآن';
-            orderBtn.disabled = false;
-          }
-          
-        } catch (error) {
-          console.error('❌ خطأ في تقديم الطلب:', error);
-          showNotification("خطأ في تقديم الطلب: " + error.message, "error");
-          
-          // Restore button
-          const orderBtn = document.getElementById("order-now-btn");
-          if (orderBtn) {
-            orderBtn.innerHTML = '<i class="fas fa-shopping-bag mr-2"></i>اطلب الآن';
-            orderBtn.disabled = false;
-          }
-        }
-      }
+  if (!currentCustomer) {
+    showNotification(
+      "ÙŠØ±Ø¬Ù‰ ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„ Ø£ÙˆÙ„Ø§Ù‹ Ù„ØªÙ‚Ø¯ÙŠÙ… Ø§Ù„Ø·Ù„Ø¨",
+      "error"
+    );
+    closeProductModal();
+    const customerModal = document.getElementById("customer-modal");
+    if (customerModal) {
+      customerModal.classList.remove("hidden");
+      customerModal.classList.add("flex");
+    }
+    return;
+  }
 
-      // ===== Menu and Shop Items Rendering =====
-      function renderMenuItems() {
-        console.log('🍽️ عرض عناصر القائمة');
-        
-        const container = document.getElementById("menu-items-container");
-        if (!container) {
-          console.error('❌ حاوي عناصر القائمة غير موجود');
-          return;
-        }
+  if (!currentProduct) return;
 
-        container.innerHTML = "";
+  try {
+    // Show loading
+    const orderBtn = document.getElementById("order-now-btn");
+    if (orderBtn) {
+      const originalText = orderBtn.innerHTML;
+      orderBtn.innerHTML =
+        '<i class="fas fa-spinner fa-spin mr-2"></i>Ø¬Ø§Ø±ÙŠ Ø§Ù„Ø·Ù„Ø¨...';
+      orderBtn.disabled = true;
 
-        menuItems.forEach((item) => {
-          const menuItemDiv = document.createElement("div");
-          menuItemDiv.className = "menu-item fade-in-up";
-          menuItemDiv.setAttribute("data-category", item.category);
-          
-          menuItemDiv.innerHTML = `
+      // Create pending order
+      const newOrder = {
+        customerId: currentCustomer.id,
+        customerName: currentCustomer.name,
+        product: currentProduct.name,
+        price: currentProduct.priceNum,
+      };
+
+      // Save to sb
+      const savedOrder = await savePendingOrderTosb(newOrder);
+
+      // Update local array
+      pendingOrders.unshift(savedOrder);
+      renderPendingOrders();
+
+      showNotification(
+        `ØªÙ… ØªÙ‚Ø¯ÙŠÙ… Ø§Ù„Ø·Ù„Ø¨: ${currentProduct.name}. ÙÙŠ Ø§Ù†ØªØ¸Ø§Ø± ØªØ£ÙƒÙŠØ¯ Ø§Ù„Ù…ÙˆØ¸Ù.`
+      );
+      closeProductModal();
+
+      // Restore button
+      orderBtn.innerHTML =
+        '<i class="fas fa-shopping-bag mr-2"></i>Ø§Ø·Ù„Ø¨ Ø§Ù„Ø¢Ù†';
+      orderBtn.disabled = false;
+    }
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ ØªÙ‚Ø¯ÙŠÙ… Ø§Ù„Ø·Ù„Ø¨:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ ØªÙ‚Ø¯ÙŠÙ… Ø§Ù„Ø·Ù„Ø¨: " + error.message,
+      "error"
+    );
+
+    // Restore button
+    const orderBtn = document.getElementById("order-now-btn");
+    if (orderBtn) {
+      orderBtn.innerHTML =
+        '<i class="fas fa-shopping-bag mr-2"></i>Ø§Ø·Ù„Ø¨ Ø§Ù„Ø¢Ù†';
+      orderBtn.disabled = false;
+    }
+  }
+}
+
+// ===== Menu and Shop Items Rendering =====
+function renderMenuItems() {
+  console.log("ðŸ½ï¸ Ø¹Ø±Ø¶ Ø¹Ù†Ø§ØµØ± Ø§Ù„Ù‚Ø§Ø¦Ù…Ø©");
+
+  const container = document.getElementById("menu-items-container");
+  if (!container) {
+    console.error("âŒ Ø­Ø§ÙˆÙŠ Ø¹Ù†Ø§ØµØ± Ø§Ù„Ù‚Ø§Ø¦Ù…Ø© ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯");
+    return;
+  }
+
+  container.innerHTML = "";
+
+  menuItems.forEach((item) => {
+    const menuItemDiv = document.createElement("div");
+    menuItemDiv.className = "menu-item fade-in-up";
+    menuItemDiv.setAttribute("data-category", item.category);
+
+    menuItemDiv.innerHTML = `
             <div class="menu-item-card rounded-3xl p-6 shadow-lg cursor-pointer transition-all duration-500"
                  data-product='${JSON.stringify({
                    name: item.name,
                    price: item.price,
                    priceNum: item.priceNum,
                    image: item.image,
-                   description: item.description
+                   description: item.description,
                  })}'>
               <div class="relative mb-6">
-                <img src="${item.image}" alt="${item.name}" class="w-full h-48 rounded-2xl object-cover shadow-md" loading="lazy"/>
+                <img src="${item.image}" alt="${
+      item.name
+    }" class="w-full h-48 rounded-2xl object-cover shadow-md" loading="lazy" onerror="console.error('Failed to load image:', this.src)"/>
                 <div class="absolute top-4 right-4 price-badge shadow-lg">
                   ${item.price} IQD
                 </div>
@@ -1516,34 +1630,34 @@
               </p>
             </div>
           `;
-          
-          container.appendChild(menuItemDiv);
-        });
 
-        // Re-attach click events for menu items
-        setupMenuItemEvents();
-      }
+    container.appendChild(menuItemDiv);
+  });
 
-      function renderShopItems() {
-        console.log('🏪 عرض عناصر المتجر');
-        
-        const container = document.getElementById("shop-items-container");
-        if (!container) {
-          console.error('❌ حاوي عناصر المتجر غير موجود');
-          return;
-        }
+  // Re-attach click events for menu items
+  setupMenuItemEvents();
+}
 
-        container.innerHTML = "";
+function renderShopItems() {
+  console.log("ðŸª عرض عناصر المتجر");
 
-        shopItems.forEach((item) => {
-          const shopItemDiv = document.createElement("div");
-          shopItemDiv.className = "shop-item fade-in-up";
-          shopItemDiv.setAttribute("data-shop-category", item.category);
-          
-          shopItemDiv.innerHTML = `
+  const container = document.getElementById("shop-items-container");
+  if (!container) {
+    console.error("âŒ Ø­Ø§ÙˆÙŠ Ø¹Ù†Ø§ØµØ± Ø§Ù„Ù…ØªØ¬Ø± ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯");
+    return;
+  }
+
+  container.innerHTML = "";
+
+  shopItems.forEach((item) => {
+    const shopItemDiv = document.createElement("div");
+    shopItemDiv.className = "shop-item fade-in-up";
+    shopItemDiv.setAttribute("data-shop-category", item.category);
+
+    shopItemDiv.innerHTML = `
             <div class="menu-item-card rounded-3xl p-6 shadow-lg cursor-pointer transition-all duration-500">
               <div class="relative mb-6">
-                <img src="${item.image}" alt="${item.name}" class="w-full h-48 rounded-2xl object-cover shadow-md" loading="lazy"/>
+                <img src="${item.image}" alt="${item.name}" class="w-full h-48 rounded-2xl object-cover shadow-md" loading="lazy" onerror="console.error('Failed to load image:', this.src)"/>
                 <div class="absolute top-4 right-4 price-badge shadow-lg">
                   ${item.price} IQD
                 </div>
@@ -1561,680 +1675,797 @@
               </button>
             </div>
           `;
-          
-          container.appendChild(shopItemDiv);
-        });
+
+    container.appendChild(shopItemDiv);
+  });
+}
+
+function setupMenuItemEvents() {
+  // Setup click events for menu items
+  document.querySelectorAll("[data-product]").forEach((item) => {
+    item.addEventListener("click", (e) => {
+      try {
+        const productData = JSON.parse(e.currentTarget.dataset.product);
+        showProductModal(productData);
+      } catch (error) {
+        console.error("âŒ Ø®Ø·Ø£ ÙÙŠ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…Ù†ØªØ¬:", error);
+        showNotification("Ø®Ø·Ø£ ÙÙŠ Ø¹Ø±Ø¶ ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ù…Ù†ØªØ¬", "error");
       }
+    });
+  });
+}
 
-      function setupMenuItemEvents() {
-        // Setup click events for menu items
-        document.querySelectorAll("[data-product]").forEach((item) => {
-          item.addEventListener("click", (e) => {
-            try {
-              const productData = JSON.parse(e.currentTarget.dataset.product);
-              showProductModal(productData);
-            } catch (error) {
-              console.error('❌ خطأ في بيانات المنتج:', error);
-              showNotification('خطأ في عرض تفاصيل المنتج', 'error');
-            }
-          });
-        });
-      }
+// ===== Pending Orders Functions =====
+function renderPendingOrders() {
+  console.log(
+    "ðŸ“‹ عرض عرض عناصر القائمةلطلبعرض عناصر القائمةت عرض عناصر القائمةلمعلقة"
+  );
 
-      // ===== Pending Orders Functions =====
-      function renderPendingOrders() {
-        console.log('📋 عرض الطلبات المعلقة');
-        
-        const container = document.getElementById("pending-orders-container");
-        const section = document.getElementById("pending-orders-section");
+  const container = document.getElementById("pending-orders-container");
+  const section = document.getElementById("pending-orders-section");
 
-        if (!container || !section) return;
+  if (!container || !section) return;
 
-        if (pendingOrders.length === 0) {
-          section.classList.add("hidden");
-          return;
-        }
+  if (pendingOrders.length === 0) {
+    section.classList.add("hidden");
+    return;
+  }
 
-        section.classList.remove("hidden");
-        container.innerHTML = "";
+  section.classList.remove("hidden");
+  container.innerHTML = "";
 
-        pendingOrders.forEach((order) => {
-          const orderDiv = document.createElement("div");
-          orderDiv.className = "bg-red-700/50 backdrop-blur-sm p-6 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 border border-red-600";
-          orderDiv.innerHTML = `
+  pendingOrders.forEach((order) => {
+    const orderDiv = document.createElement("div");
+    orderDiv.className =
+      "bg-red-700/50 backdrop-blur-sm p-6 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 border border-red-600";
+    orderDiv.innerHTML = `
             <div class="flex-1">
-              <h4 class="font-bold text-white text-xl mb-2">${order.customer_name}</h4>
-              <p class="text-red-200 text-lg">${order.product_name} - ${formatPrice(order.price)}</p>
-              <p class="text-red-300 text-sm">${new Date(order.created_at).toLocaleString('ar-EG')}</p>
+              <h4 class="font-bold text-white text-xl mb-2">${
+                order.customer_name
+              }</h4>
+              <p class="text-red-200 text-lg">${
+                order.product_name
+              } - ${formatPrice(order.price)}</p>
+              <p class="text-red-300 text-sm">${new Date(
+                order.created_at
+              ).toLocaleString("ar-EG")}</p>
             </div>
             <div class="flex gap-3 w-full lg:w-auto">
-              <button onclick="confirmOrder('${order.id}')" class="flex-1 lg:flex-none bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg">
+              <button onclick="confirmOrder('${
+                order.id
+              }')" class="flex-1 lg:flex-none bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg">
                 تأكيد الدفع
               </button>
-              <button onclick="cancelOrder('${order.id}')" class="flex-1 lg:flex-none bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg">
+              <button onclick="cancelOrder('${
+                order.id
+              }')" class="flex-1 lg:flex-none bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg">
                 إلغاء
               </button>
             </div>
           `;
-          container.appendChild(orderDiv);
-        });
-      }
+    container.appendChild(orderDiv);
+  });
+}
 
-      async function confirmOrder(orderId) {
-        console.log('✅ تأكيد الطلب:', orderId);
-        
-        try {
-          const order = pendingOrders.find((o) => o.id === orderId);
-          if (!order) {
-            showNotification("الطلب غير موجود", "error");
-            return;
-          }
+async function confirmOrder(orderId) {
+  console.log("âœ… تأكيد عرض عناصر القائمةلطلب:", orderId);
 
-          const customer = customers.find((c) => c.id === order.customer_id);
-          if (!customer) {
-            showNotification("العميل غير موجود", "error");
-            return;
-          }
+  try {
+    const order = pendingOrders.find((o) => o.id === orderId);
+    if (!order) {
+      showNotification("Ø§Ù„Ø·Ù„Ø¨ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯", "error");
+      return;
+    }
 
-          let isFree = false;
-          const currentPoints = customer.loyalty_points || 0;
+    const customer = customers.find((c) => c.id === order.customer_id);
+    if (!customer) {
+      showNotification("Ø§Ù„Ø¹Ù…ÙŠÙ„ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯", "error");
+      return;
+    }
 
-          // Check if customer is eligible for free drink
-          if (currentPoints >= STAMPS_FOR_FREE) {
-            isFree = true;
-            customer.loyalty_points = 0; // Reset stamps
-            customer.loyaltyPoints = 0; // For local compatibility
-            showNotification("🎉 تم استبدال المشروب المجاني! تم إعادة تعيين الأختام.");
-          } else {
-            customer.loyalty_points = currentPoints + 1;
-            customer.loyaltyPoints = currentPoints + 1; // For local compatibility
-            showNotification("تم تأكيد الطلب واستلام الدفعة. تمت إضافة ختم ولاء!");
-          }
+    let isFree = false;
+    const currentPoints = customer.loyalty_points || 0;
 
-          // Save customer updates to Supabase
-          await saveCustomerToSupabase(customer);
+    // Check if customer is eligible for free drink
+    if (currentPoints >= STAMPS_FOR_FREE) {
+      isFree = true;
+      customer.loyalty_points = 0; // Reset stamps
+      customer.loyaltyPoints = 0; // For local compatibility
+      showNotification(
+        "ðŸŽ‰ ØªÙ… Ø§Ø³ØªØ¨Ø¯Ø§Ù„ Ø§Ù„Ù…Ø´Ø±ÙˆØ¨ Ø§Ù„Ù…Ø¬Ø§Ù†ÙŠ! ØªÙ… Ø¥Ø¹Ø§Ø¯Ø© ØªØ¹ÙŠÙŠÙ† Ø§Ù„Ø£Ø®ØªØ§Ù…."
+      );
+    } else {
+      customer.loyalty_points = currentPoints + 1;
+      customer.loyaltyPoints = currentPoints + 1; // For local compatibility
+      showNotification(
+        "ØªÙ… تأكيد عرض عناصر القائمةلطلب ÙˆØ§Ø³ØªÙ„Ø§Ù… Ø§Ù„Ø¯ÙØ¹Ø©. ØªÙ…Øª Ø¥Ø¶Ø§ÙØ© Ø®ØªÙ… ÙˆÙ„Ø§Ø¡!"
+      );
+    }
 
-          // Save order to Supabase
-          const newOrder = {
-            customer_id: customer.id,
-            product: order.product_name,
-            price: order.price,
-            isFree: isFree,
-          };
-          await saveOrderToSupabase(newOrder);
+    // Save customer updates to sb
+    await saveCustomerTosb(customer);
 
-          // Update customer orders locally
-          if (!customer.orders) customer.orders = [];
-          customer.orders.push(newOrder);
+    // Save order to sb
+    const newOrder = {
+      customer_id: customer.id,
+      product: order.product_name,
+      price: order.price,
+      isFree: isFree,
+    };
+    await saveOrderTosb(newOrder);
 
-          // Delete pending order from Supabase
-          await deletePendingOrderFromSupabase(orderId);
+    // Update customer orders locally
+    if (!customer.orders) customer.orders = [];
+    customer.orders.push(newOrder);
 
-          // Remove from local array
-          pendingOrders = pendingOrders.filter((o) => o.id !== orderId);
+    // Delete pending order from sb
+    await deletePendingOrderFromsb(orderId);
 
-          renderPendingOrders();
-          updateBaristaCustomerDisplay();
-          renderBaristaCustomersTable();
+    // Remove from local array
+    pendingOrders = pendingOrders.filter((o) => o.id !== orderId);
 
-          // Update current customer display if it's the same customer
-          if (currentCustomer && currentCustomer.id === customer.id) {
-            currentCustomer = customer;
-            updateCustomerDisplay();
-          }
-          
-        } catch (error) {
-          console.error('❌ خطأ في تأكيد الطلب:', error);
-          showNotification("خطأ في تأكيد الطلب: " + error.message, "error");
-        }
-      }
+    renderPendingOrders();
+    updateBaristaCustomerDisplay();
+    renderBaristaCustomersTable();
 
-      async function cancelOrder(orderId) {
-        console.log('❌ إلغاء الطلب:', orderId);
-        
-        try {
-          // Delete from Supabase
-          await deletePendingOrderFromSupabase(orderId);
-          
-          // Remove from local array
-          pendingOrders = pendingOrders.filter((o) => o.id !== orderId);
-          
-          renderPendingOrders();
-          showNotification("تم إلغاء الطلب");
-          
-        } catch (error) {
-          console.error('❌ خطأ في إلغاء الطلب:', error);
-          showNotification("خطأ في إلغاء الطلب: " + error.message, "error");
-        }
-      }
+    // Update current customer display if it's the same customer
+    if (currentCustomer && currentCustomer.id === customer.id) {
+      currentCustomer = customer;
+      updateCustomerDisplay();
+    }
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ تأكيد عرض عناصر القائمةلطلب:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ تأكيد عرض عناصر القائمةلطلب: " + error.message,
+      "error"
+    );
+  }
+}
 
-      // ===== Shop Orders Functions =====
-      function renderShopOrders() {
-        console.log('🛒 عرض طلبات المتجر');
-        
-        const container = document.getElementById("shop-orders-container");
-        const section = document.getElementById("shop-orders-section");
+async function cancelOrder(orderId) {
+  console.log("âŒ إلغعرض عناصر القائمةء Ø§Ù„Ø·Ù„Ø¨:", orderId);
 
-        if (!container || !section) return;
+  try {
+    // Delete from sb
+    await deletePendingOrderFromsb(orderId);
 
-        if (shopOrders.length === 0) {
-          section.classList.add("hidden");
-          return;
-        }
+    // Remove from local array
+    pendingOrders = pendingOrders.filter((o) => o.id !== orderId);
 
-        section.classList.remove("hidden");
-        container.innerHTML = "";
+    renderPendingOrders();
+    showNotification("ØªÙ… إلغعرض عناصر القائمةء Ø§Ù„Ø·Ù„Ø¨");
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ إلغعرض عناصر القائمةء Ø§Ù„Ø·Ù„Ø¨:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ إلغعرض عناصر القائمةء Ø§Ù„Ø·Ù„Ø¨: " + error.message,
+      "error"
+    );
+  }
+}
 
-        shopOrders.forEach((order) => {
-          const orderDiv = document.createElement("div");
-          orderDiv.className = "bg-blue-700/50 backdrop-blur-sm p-6 rounded-2xl border border-blue-600";
+// ===== Shop Orders Functions =====
+function renderShopOrders() {
+  console.log("ðŸ›’ عرض طلبعرض عناصر القائمةت عرض عناصر القائمةلمتجر");
 
-          const itemsList = order.items
-            .map(
-              (item) =>
-                `${item.name} × ${item.quantity} (${formatPrice(item.price * item.quantity)})`
-            )
-            .join(", ");
+  const container = document.getElementById("shop-orders-container");
+  const section = document.getElementById("shop-orders-section");
 
-          const cityText = order.customer_city ? ` - ${order.customer_city}` : '';
+  if (!container || !section) return;
 
-          orderDiv.innerHTML = `
+  if (shopOrders.length === 0) {
+    section.classList.add("hidden");
+    return;
+  }
+
+  section.classList.remove("hidden");
+  container.innerHTML = "";
+
+  shopOrders.forEach((order) => {
+    const orderDiv = document.createElement("div");
+    orderDiv.className =
+      "bg-blue-700/50 backdrop-blur-sm p-6 rounded-2xl border border-blue-600";
+
+    const itemsList = order.items
+      .map(
+        (item) =>
+          `${item.name} Ã— ${item.quantity} (${formatPrice(
+            item.price * item.quantity
+          )})`
+      )
+      .join(", ");
+
+    const cityText = order.customer_city ? ` - ${order.customer_city}` : "";
+
+    orderDiv.innerHTML = `
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div>
-                <h4 class="font-bold text-white text-xl mb-2">${order.customer_name}</h4>
-                <p class="text-blue-200"><i class="fas fa-phone mr-2"></i>${order.customer_phone}</p>
-                <p class="text-blue-200 text-sm"><i class="fas fa-map-marker-alt mr-2"></i>${order.customer_address || 'لا يوجد عنوان'}${cityText}</p>
-                ${order.notes ? `<p class="text-blue-300 text-sm mt-2"><i class="fas fa-sticky-note mr-2"></i>${order.notes}</p>` : ""}
+                <h4 class="font-bold text-white text-xl mb-2">${
+                  order.customer_name
+                }</h4>
+                <p class="text-blue-200"><i class="fas fa-phone mr-2"></i>${
+                  order.customer_phone
+                }</p>
+                <p class="text-blue-200 text-sm"><i class="fas fa-map-marker-alt mr-2"></i>${
+                  order.customer_address || "لا يوجد عنوان"
+                }${cityText}</p>
+                ${
+                  order.notes
+                    ? `<p class="text-blue-300 text-sm mt-2"><i class="fas fa-sticky-note mr-2"></i>${order.notes}</p>`
+                    : ""
+                }
               </div>
               <div>
                 <h5 class="font-semibold text-blue-200 mb-2">المنتجات:</h5>
                 <p class="text-white text-sm">${itemsList}</p>
-                <p class="text-blue-200 text-sm mt-2">${new Date(order.created_at).toLocaleString('ar-EG')}</p>
+                <p class="text-blue-200 text-sm mt-2">${new Date(
+                  order.created_at
+                ).toLocaleString("ar-EG")}</p>
               </div>
               <div class="flex flex-col gap-3">
                 <div class="text-right">
-                  <p class="text-2xl font-bold text-white">${formatPrice(order.total)}</p>
+                  <p class="text-2xl font-bold text-white">${formatPrice(
+                    order.total
+                  )}</p>
                 </div>
                 <div class="flex gap-3">
-                  <button onclick="confirmShopOrder('${order.id}')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 shadow-lg">
+                  <button onclick="confirmShopOrder('${
+                    order.id
+                  }')" class="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 shadow-lg">
                     تأكيد الطلب
                   </button>
-                  <button onclick="cancelShopOrder('${order.id}')" class="flex-1 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 shadow-lg">
+                  <button onclick="cancelShopOrder('${
+                    order.id
+                  }')" class="flex-1 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300 shadow-lg">
                     إلغاء
                   </button>
                 </div>
               </div>
             </div>
           `;
-          container.appendChild(orderDiv);
-        });
-      }
+    container.appendChild(orderDiv);
+  });
+}
 
-      async function confirmShopOrder(orderId) {
-        console.log('✅ تأكيد طلب المتجر:', orderId);
-        
-        try {
-          // Delete from Supabase
-          await deleteShopOrderFromSupabase(orderId);
-          
-          // Remove from local array
-          shopOrders = shopOrders.filter((order) => order.id !== orderId);
-          
-          renderShopOrders();
-          showNotification("تم تأكيد طلب المتجر بنجاح");
-          
-        } catch (error) {
-          console.error('❌ خطأ في تأكيد طلب المتجر:', error);
-          showNotification("خطأ في تأكيد طلب المتجر: " + error.message, "error");
-        }
-      }
+async function confirmShopOrder(orderId) {
+  console.log("âœ… ØªØ£ÙƒÙŠØ¯ Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±:", orderId);
 
-      async function cancelShopOrder(orderId) {
-        console.log('❌ إلغاء طلب المتجر:', orderId);
-        
-        try {
-          // Delete from Supabase
-          await deleteShopOrderFromSupabase(orderId);
-          
-          // Remove from local array
-          shopOrders = shopOrders.filter((order) => order.id !== orderId);
-          
-          renderShopOrders();
-          showNotification("تم إلغاء طلب المتجر");
-          
-        } catch (error) {
-          console.error('❌ خطأ في إلغاء طلب المتجر:', error);
-          showNotification("خطأ في إلغاء طلب المتجر: " + error.message, "error");
-        }
-      }
+  try {
+    // Delete from sb
+    await deleteShopOrderFromsb(orderId);
 
-      // ===== Barista Functions =====
-      async function searchCustomer() {
-        console.log('🔍 البحث عن عميل');
-        
-        const searchInput = document.getElementById("search-customer");
-        if (!searchInput) {
-          showNotification("عنصر البحث غير موجود", "error");
-          return;
-        }
+    // Remove from local array
+    shopOrders = shopOrders.filter((order) => order.id !== orderId);
 
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        if (!searchTerm) {
-          showNotification("يرجى إدخال مصطلح بحث", "error");
-          return;
-        }
+    renderShopOrders();
+    showNotification("ØªÙ… ØªØ£ÙƒÙŠØ¯ Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø± Ø¨Ù†Ø¬Ø§Ø­");
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ ØªØ£ÙƒÙŠØ¯ Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ ØªØ£ÙƒÙŠØ¯ Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±: " + error.message,
+      "error"
+    );
+  }
+}
 
-        // Reload fresh data from Supabase
-        await loadCustomers();
+async function cancelShopOrder(orderId) {
+  console.log("âŒ إلغعرض عناصر القائمةء Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±:", orderId);
 
-        const found = customers.filter(
-          (c) =>
-            c.name.toLowerCase().includes(searchTerm) ||
-            (c.phone && c.phone.includes(searchTerm))
-        );
+  try {
+    // Delete from sb
+    await deleteShopOrderFromsb(orderId);
 
-        if (found.length === 0) {
-          showNotification("العميل غير موجود", "error");
-          const baristaCustomerDetails = document.getElementById("barista-customer-details");
-          if (baristaCustomerDetails) {
-            baristaCustomerDetails.classList.add("hidden");
-          }
-          return;
-        }
+    // Remove from local array
+    shopOrders = shopOrders.filter((order) => order.id !== orderId);
 
-        if (found.length === 1) {
-          selectBaristaCustomer(found[0].id);
-        } else {
-          renderBaristaCustomersTable(found);
-          showNotification(`تم العثور على ${found.length} عملاء`);
-        }
-      }
+    renderShopOrders();
+    showNotification("ØªÙ… إلغعرض عناصر القائمةء Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±");
+  } catch (error) {
+    console.error(
+      "âŒ Ø®Ø·Ø£ ÙÙŠ إلغعرض عناصر القائمةء Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±:",
+      error
+    );
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ إلغعرض عناصر القائمةء Ø·Ù„Ø¨ Ø§Ù„Ù…ØªØ¬Ø±: " + error.message,
+      "error"
+    );
+  }
+}
 
-      function selectBaristaCustomer(customerId) {
-        console.log('👤 تحديد عميل للباريستا:', customerId);
-        
-        selectedBaristaCustomer = customers.find((c) => c.id === customerId);
-        if (!selectedBaristaCustomer) return;
+// ===== Barista Functions =====
+async function searchCustomer() {
+  console.log("ðŸ” Ø§Ù„Ø¨Ø­Ø« Ø¹Ù† Ø¹Ù…ÙŠÙ„");
 
-        const baristaCustomerDetails = document.getElementById("barista-customer-details");
-        if (baristaCustomerDetails) {
-          baristaCustomerDetails.classList.remove("hidden");
-        }
-        updateBaristaCustomerDisplay();
-      }
+  const searchInput = document.getElementById("search-customer");
+  if (!searchInput) {
+    showNotification("Ø¹Ù†ØµØ± Ø§Ù„Ø¨Ø­Ø« ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯", "error");
+    return;
+  }
 
-      function updateBaristaCustomerDisplay() {
-        if (!selectedBaristaCustomer) return;
+  const searchTerm = searchInput.value.trim().toLowerCase();
+  if (!searchTerm) {
+    showNotification("ÙŠØ±Ø¬Ù‰ Ø¥Ø¯Ø®Ø§Ù„ Ù…ØµØ·Ù„Ø­ Ø¨Ø­Ø«", "error");
+    return;
+  }
 
-        console.log('🔄 تحديث عرض العميل للباريستا:', selectedBaristaCustomer.name);
+  // Reload fresh data from sb
+  await loadCustomers();
 
-        const baristaCustomerInfo = document.getElementById("barista-customer-info");
-        if (baristaCustomerInfo) {
-          baristaCustomerInfo.textContent = 
-            `${selectedBaristaCustomer.name} - ${selectedBaristaCustomer.phone || "لا يوجد هاتف"}`;
-        }
+  const found = customers.filter(
+    (c) =>
+      c.name.toLowerCase().includes(searchTerm) ||
+      (c.phone && c.phone.includes(searchTerm))
+  );
 
-        const loyaltyPoints = selectedBaristaCustomer.loyalty_points || 0;
-        
-        const baristaLoyaltyCounter = document.getElementById("barista-loyalty-counter");
-        if (baristaLoyaltyCounter) {
-          baristaLoyaltyCounter.textContent = `${loyaltyPoints}/${STAMPS_FOR_FREE}`;
-        }
+  if (found.length === 0) {
+    showNotification("Ø§Ù„Ø¹Ù…ÙŠÙ„ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯", "error");
+    const baristaCustomerDetails = document.getElementById(
+      "barista-customer-details"
+    );
+    if (baristaCustomerDetails) {
+      baristaCustomerDetails.classList.add("hidden");
+    }
+    return;
+  }
 
-        const progress = (loyaltyPoints / STAMPS_FOR_FREE) * 100;
-        const baristaLoyaltyProgress = document.getElementById("barista-loyalty-progress");
-        if (baristaLoyaltyProgress) {
-          baristaLoyaltyProgress.style.width = `${Math.min(progress, 100)}%`;
-        }
+  if (found.length === 1) {
+    selectBaristaCustomer(found[0].id);
+  } else {
+    renderBaristaCustomersTable(found);
+    showNotification(`ØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ ${found.length} Ø¹Ù…Ù„Ø§Ø¡`);
+  }
+}
 
-        // Update loyalty status
-        const loyaltyStatus = document.getElementById("barista-loyalty-status");
-        if (loyaltyStatus) {
-          if (loyaltyPoints >= STAMPS_FOR_FREE) {
-            loyaltyStatus.textContent = "مؤهل للمشروب المجاني!";
-            loyaltyStatus.className =
-              "px-6 py-3 rounded-full text-lg font-bold bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg float-gently";
-          } else {
-            loyaltyStatus.textContent = `يحتاج ${STAMPS_FOR_FREE - loyaltyPoints} أختام أكثر`;
-            loyaltyStatus.className =
-              "px-6 py-3 rounded-full text-lg font-bold bg-gradient-to-r from-gray-600 to-gray-700 text-white shadow-lg";
-          }
-        }
+function selectBaristaCustomer(customerId) {
+  console.log("ðŸ‘¤ ØªØ­Ø¯ÙŠØ¯ Ø¹Ù…ÙŠÙ„ Ù„Ù„Ø¨Ø§Ø±ÙŠØ³ØªØ§:", customerId);
 
-        // Render order history
-        const orderHistory = document.getElementById("barista-order-history");
-        if (orderHistory) {
-          orderHistory.innerHTML = "";
+  selectedBaristaCustomer = customers.find((c) => c.id === customerId);
+  if (!selectedBaristaCustomer) return;
 
-          const recentOrders = (selectedBaristaCustomer.orders || []).slice(-10).reverse();
-          recentOrders.forEach((order) => {
-            const orderDiv = document.createElement("div");
-            orderDiv.className = "bg-emerald-700/50 backdrop-blur-sm p-4 rounded-xl border border-emerald-600";
-            orderDiv.innerHTML = `
-              <div class="font-semibold text-white text-lg mb-1">${order.product_name || order.product}</div>
-              <div class="text-sm text-emerald-200">${new Date(order.created_at || order.date).toLocaleDateString('ar-EG')}</div>
-              <div class="text-lg font-bold ${order.is_free || order.isFree ? "text-green-400" : "text-emerald-200"}">
-                ${order.is_free || order.isFree ? "مجاني" : formatPrice(order.price)}
+  const baristaCustomerDetails = document.getElementById(
+    "barista-customer-details"
+  );
+  if (baristaCustomerDetails) {
+    baristaCustomerDetails.classList.remove("hidden");
+  }
+  updateBaristaCustomerDisplay();
+}
+
+function updateBaristaCustomerDisplay() {
+  if (!selectedBaristaCustomer) return;
+
+  console.log(
+    "ðŸ”„ ØªØ­Ø¯ÙŠØ« Ø¹Ø±Ø¶ Ø§Ù„Ø¹Ù…ÙŠÙ„ Ù„Ù„Ø¨Ø§Ø±ÙŠØ³ØªØ§:",
+    selectedBaristaCustomer.name
+  );
+
+  const baristaCustomerInfo = document.getElementById("barista-customer-info");
+  if (baristaCustomerInfo) {
+    baristaCustomerInfo.textContent = `${selectedBaristaCustomer.name} - ${
+      selectedBaristaCustomer.phone || "Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ù‡Ø§ØªÙ"
+    }`;
+  }
+
+  const loyaltyPoints = selectedBaristaCustomer.loyalty_points || 0;
+
+  const baristaLoyaltyCounter = document.getElementById(
+    "barista-loyalty-counter"
+  );
+  if (baristaLoyaltyCounter) {
+    baristaLoyaltyCounter.textContent = `${loyaltyPoints}/${STAMPS_FOR_FREE}`;
+  }
+
+  const progress = (loyaltyPoints / STAMPS_FOR_FREE) * 100;
+  const baristaLoyaltyProgress = document.getElementById(
+    "barista-loyalty-progress"
+  );
+  if (baristaLoyaltyProgress) {
+    baristaLoyaltyProgress.style.width = `${Math.min(progress, 100)}%`;
+  }
+
+  // Update loyalty status
+  const loyaltyStatus = document.getElementById("barista-loyalty-status");
+  if (loyaltyStatus) {
+    if (loyaltyPoints >= STAMPS_FOR_FREE) {
+      loyaltyStatus.textContent = "Ù…Ø¤Ù‡Ù„ Ù„Ù„Ù…Ø´Ø±ÙˆØ¨ Ø§Ù„Ù…Ø¬Ø§Ù†ÙŠ!";
+      loyaltyStatus.className =
+        "px-6 py-3 rounded-full text-lg font-bold bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg float-gently";
+    } else {
+      loyaltyStatus.textContent = `ÙŠØ­ØªØ§Ø¬ ${
+        STAMPS_FOR_FREE - loyaltyPoints
+      } Ø£Ø®ØªØ§Ù… Ø£ÙƒØ«Ø±`;
+      loyaltyStatus.className =
+        "px-6 py-3 rounded-full text-lg font-bold bg-gradient-to-r from-gray-600 to-gray-700 text-white shadow-lg";
+    }
+  }
+
+  // Render order history
+  const orderHistory = document.getElementById("barista-order-history");
+  if (orderHistory) {
+    orderHistory.innerHTML = "";
+
+    const recentOrders = (selectedBaristaCustomer.orders || [])
+      .slice(-10)
+      .reverse();
+    recentOrders.forEach((order) => {
+      const orderDiv = document.createElement("div");
+      orderDiv.className =
+        "bg-emerald-700/50 backdrop-blur-sm p-4 rounded-xl border border-emerald-600";
+      orderDiv.innerHTML = `
+              <div class="font-semibold text-white text-lg mb-1">${
+                order.product_name || order.product
+              }</div>
+              <div class="text-sm text-emerald-200">${new Date(
+                order.created_at || order.date
+              ).toLocaleDateString("ar-EG")}</div>
+              <div class="text-lg font-bold ${
+                order.is_free || order.isFree
+                  ? "text-green-400"
+                  : "text-emerald-200"
+              }">
+                ${
+                  order.is_free || order.isFree
+                    ? "Ù…Ø¬Ø§Ù†ÙŠ"
+                    : formatPrice(order.price)
+                }
               </div>
             `;
-            orderHistory.appendChild(orderDiv);
-          });
-        }
+      orderHistory.appendChild(orderDiv);
+    });
+  }
 
-        // Populate edit form with current data
-        const editCustomerName = document.getElementById("edit-customer-name");
-        const editCustomerPhone = document.getElementById("edit-customer-phone");
-        if (editCustomerName) editCustomerName.value = selectedBaristaCustomer.name;
-        if (editCustomerPhone) editCustomerPhone.value = selectedBaristaCustomer.phone || "";
+  // Populate edit form with current data
+  const editCustomerName = document.getElementById("edit-customer-name");
+  const editCustomerPhone = document.getElementById("edit-customer-phone");
+  if (editCustomerName) editCustomerName.value = selectedBaristaCustomer.name;
+  if (editCustomerPhone)
+    editCustomerPhone.value = selectedBaristaCustomer.phone || "";
+}
+
+async function addNewCustomer() {
+  console.log("âž• Ø¥Ø¶Ø§ÙØ© Ø¹Ù…ÙŠÙ„ Ø¬Ø¯ÙŠØ¯");
+
+  const nameInput = document.getElementById("new-customer-name");
+  const phoneInput = document.getElementById("new-customer-phone");
+
+  if (!nameInput || !phoneInput) {
+    showNotification("Ø¹Ù†Ø§ØµØ± Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯Ø©", "error");
+    return;
+  }
+
+  const name = nameInput.value.trim();
+  const phone = phoneInput.value.trim();
+
+  if (!name) {
+    showNotification("ÙŠØ±Ø¬Ù‰ Ø¥Ø¯Ø®Ø§Ù„ Ø§Ø³Ù… Ø§Ù„Ø¹Ù…ÙŠÙ„", "error");
+    return;
+  }
+
+  try {
+    if (customers.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
+      showNotification("Ø§Ù„Ø¹Ù…ÙŠÙ„ Ù…ÙˆØ¬ÙˆØ¯ Ø¨Ø§Ù„ÙØ¹Ù„", "error");
+      return;
+    }
+
+    const newCustomer = {
+      id: generateId(),
+      name: name,
+      phone: phone || "",
+      orders: [],
+      loyaltyPoints: 0,
+      loyalty_points: 0,
+    };
+
+    // Save to sb
+    const savedCustomer = await saveCustomerTosb(newCustomer);
+    newCustomer.id = savedCustomer.id;
+
+    customers.unshift(newCustomer);
+    showNotification("ØªÙ… Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø¹Ù…ÙŠÙ„ Ø¨Ù†Ø¬Ø§Ø­");
+
+    nameInput.value = "";
+    phoneInput.value = "";
+
+    renderBaristaCustomersTable();
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø¹Ù…ÙŠÙ„:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø¹Ù…ÙŠÙ„: " + error.message,
+      "error"
+    );
+  }
+}
+
+async function addCustomerOrder() {
+  console.log("ðŸ“ Ø¥Ø¶Ø§ÙØ© Ø·Ù„Ø¨ Ù„Ù„Ø¹Ù…ÙŠÙ„");
+
+  if (!selectedBaristaCustomer) {
+    showNotification("ÙŠØ±Ø¬Ù‰ ØªØ­Ø¯ÙŠØ¯ Ø¹Ù…ÙŠÙ„ Ø£ÙˆÙ„Ø§Ù‹", "error");
+    return;
+  }
+
+  const productSelect = document.getElementById("barista-product-select");
+  if (!productSelect) {
+    showNotification(
+      "Ø¹Ù†ØµØ± Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„Ù…Ù†ØªØ¬ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯",
+      "error"
+    );
+    return;
+  }
+
+  const selectedValue = productSelect.value;
+
+  if (!selectedValue) {
+    showNotification("ÙŠØ±Ø¬Ù‰ Ø§Ø®ØªÙŠØ§Ø± Ù…Ù†ØªØ¬", "error");
+    return;
+  }
+
+  try {
+    let productName, price;
+
+    if (selectedValue === "custom") {
+      // Handle custom product
+      const customNameInput = document.getElementById("custom-product-name");
+      const customPriceInput = document.getElementById("custom-product-price");
+
+      if (!customNameInput || !customPriceInput) {
+        showNotification(
+          "Ø¹Ù†Ø§ØµØ± Ø§Ù„Ù…Ù†ØªØ¬ Ø§Ù„Ù…Ø®ØµØµ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯Ø©",
+          "error"
+        );
+        return;
       }
 
-      async function addNewCustomer() {
-        console.log('➕ إضافة عميل جديد');
-        
-        const nameInput = document.getElementById("new-customer-name");
-        const phoneInput = document.getElementById("new-customer-phone");
+      const customName = customNameInput.value.trim();
+      const customPrice = parseInt(customPriceInput.value);
 
-        if (!nameInput || !phoneInput) {
-          showNotification("عناصر النموذج غير موجودة", "error");
-          return;
-        }
-
-        const name = nameInput.value.trim();
-        const phone = phoneInput.value.trim();
-
-        if (!name) {
-          showNotification("يرجى إدخال اسم العميل", "error");
-          return;
-        }
-
-        try {
-          if (customers.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
-            showNotification("العميل موجود بالفعل", "error");
-            return;
-          }
-
-          const newCustomer = {
-            id: generateId(),
-            name: name,
-            phone: phone || "",
-            orders: [],
-            loyaltyPoints: 0,
-            loyalty_points: 0,
-          };
-
-          // Save to Supabase
-          const savedCustomer = await saveCustomerToSupabase(newCustomer);
-          newCustomer.id = savedCustomer.id;
-
-          customers.unshift(newCustomer);
-          showNotification("تم إضافة العميل بنجاح");
-
-          nameInput.value = "";
-          phoneInput.value = "";
-
-          renderBaristaCustomersTable();
-          
-        } catch (error) {
-          console.error('❌ خطأ في إضافة العميل:', error);
-          showNotification("خطأ في إضافة العميل: " + error.message, "error");
-        }
+      if (!customName || !customPrice || customPrice <= 0) {
+        showNotification(
+          "ÙŠØ±Ø¬Ù‰ Ø¥Ø¯Ø®Ø§Ù„ ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ù…Ù†ØªØ¬ Ø§Ù„Ù…Ø®ØµØµ Ø¨Ø´ÙƒÙ„ ØµØ­ÙŠØ­",
+          "error"
+        );
+        return;
       }
 
-      async function addCustomerOrder() {
-        console.log('📝 إضافة طلب للعميل');
-        
-        if (!selectedBaristaCustomer) {
-          showNotification("يرجى تحديد عميل أولاً", "error");
-          return;
-        }
+      productName = customName;
+      price = customPrice;
 
-        const productSelect = document.getElementById("barista-product-select");
-        if (!productSelect) {
-          showNotification("عنصر اختيار المنتج غير موجود", "error");
-          return;
-        }
+      // Save custom product to sb if it doesn't exist
+      const existingCustomProduct = customProducts.find(
+        (p) => p.name === customName
+      );
+      if (!existingCustomProduct) {
+        const { data, error } = await sb
+          .from("custom_products")
+          .insert([
+            { name: customName, price: customPrice, created_by: "Barista" },
+          ])
+          .select()
+          .single();
 
-        const selectedValue = productSelect.value;
-
-        if (!selectedValue) {
-          showNotification("يرجى اختيار منتج", "error");
-          return;
-        }
-
-        try {
-          let productName, price;
-
-          if (selectedValue === "custom") {
-            // Handle custom product
-            const customNameInput = document.getElementById("custom-product-name");
-            const customPriceInput = document.getElementById("custom-product-price");
-
-            if (!customNameInput || !customPriceInput) {
-              showNotification("عناصر المنتج المخصص غير موجودة", "error");
-              return;
-            }
-
-            const customName = customNameInput.value.trim();
-            const customPrice = parseInt(customPriceInput.value);
-
-            if (!customName || !customPrice || customPrice <= 0) {
-              showNotification("يرجى إدخال تفاصيل المنتج المخصص بشكل صحيح", "error");
-              return;
-            }
-
-            productName = customName;
-            price = customPrice;
-
-            // Save custom product to Supabase if it doesn't exist
-            const existingCustomProduct = customProducts.find((p) => p.name === customName);
-            if (!existingCustomProduct) {
-              const { data, error } = await supabase
-                .from('custom_products')
-                .insert([{ name: customName, price: customPrice, created_by: 'Barista' }])
-                .select()
-                .single();
-
-              if (!error) {
-                customProducts.push(data);
-                updateProductSelect();
-              }
-            }
-
-            // Clear custom fields
-            customNameInput.value = "";
-            customPriceInput.value = "";
-          } else {
-            [productName, priceStr] = selectedValue.split(",");
-            price = parseInt(priceStr);
-          }
-
-          let isFree = false;
-          const currentPoints = selectedBaristaCustomer.loyalty_points || 0;
-
-          // Check if customer is eligible for free drink
-          if (currentPoints >= STAMPS_FOR_FREE) {
-            isFree = true;
-            selectedBaristaCustomer.loyalty_points = 0;
-            selectedBaristaCustomer.loyaltyPoints = 0;
-            showNotification("🎉 تم استبدال المشروب المجاني! تم إعادة تعيين الأختام.");
-          } else {
-            selectedBaristaCustomer.loyalty_points = currentPoints + 1;
-            selectedBaristaCustomer.loyaltyPoints = currentPoints + 1;
-            showNotification("تم إضافة الطلب وتأكيد الدفع. تمت إضافة ختم ولاء!");
-          }
-
-          // Save customer updates to Supabase
-          await saveCustomerToSupabase(selectedBaristaCustomer);
-
-          // Save order to Supabase
-          const newOrder = {
-            customer_id: selectedBaristaCustomer.id,
-            product: productName,
-            price: price,
-            isFree: isFree,
-          };
-          const savedOrder = await saveOrderToSupabase(newOrder);
-
-          // Update customer orders locally
-          if (!selectedBaristaCustomer.orders) selectedBaristaCustomer.orders = [];
-          selectedBaristaCustomer.orders.push(savedOrder);
-
-          productSelect.value = "";
-          const customProductFields = document.getElementById("custom-product-fields");
-          if (customProductFields) {
-            customProductFields.classList.add("hidden");
-          }
-          
-          updateBaristaCustomerDisplay();
-          renderBaristaCustomersTable();
-
-          // Update current customer display if it's the same customer
-          if (currentCustomer && currentCustomer.id === selectedBaristaCustomer.id) {
-            currentCustomer.loyalty_points = selectedBaristaCustomer.loyalty_points;
-            currentCustomer.loyaltyPoints = selectedBaristaCustomer.loyalty_points;
-            updateCustomerDisplay();
-          }
-          
-        } catch (error) {
-          console.error('❌ خطأ في إضافة الطلب:', error);
-          showNotification("خطأ في إضافة الطلب: " + error.message, "error");
+        if (!error) {
+          customProducts.push(data);
+          updateProductSelect();
         }
       }
 
-      function updateProductSelect() {
-        const select = document.getElementById("barista-product-select");
-        if (!select) return;
+      // Clear custom fields
+      customNameInput.value = "";
+      customPriceInput.value = "";
+    } else {
+      [productName, priceStr] = selectedValue.split(",");
+      price = parseInt(priceStr);
+    }
 
-        const customOption = select.querySelector('option[value="custom"]');
+    let isFree = false;
+    const currentPoints = selectedBaristaCustomer.loyalty_points || 0;
 
-        // Remove existing custom products
-        const options = select.querySelectorAll("option");
-        options.forEach((option) => {
-          if (option.dataset.custom === "true") {
-            option.remove();
-          }
-        });
+    // Check if customer is eligible for free drink
+    if (currentPoints >= STAMPS_FOR_FREE) {
+      isFree = true;
+      selectedBaristaCustomer.loyalty_points = 0;
+      selectedBaristaCustomer.loyaltyPoints = 0;
+      showNotification(
+        "ðŸŽ‰ ØªÙ… Ø§Ø³ØªØ¨Ø¯Ø§Ù„ Ø§Ù„Ù…Ø´Ø±ÙˆØ¨ Ø§Ù„Ù…Ø¬Ø§Ù†ÙŠ! ØªÙ… Ø¥Ø¹Ø§Ø¯Ø© ØªØ¹ÙŠÙŠÙ† Ø§Ù„Ø£Ø®ØªØ§Ù…."
+      );
+    } else {
+      selectedBaristaCustomer.loyalty_points = currentPoints + 1;
+      selectedBaristaCustomer.loyaltyPoints = currentPoints + 1;
+      showNotification(
+        "ØªÙ… Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø·Ù„Ø¨ ÙˆØªØ£ÙƒÙŠØ¯ Ø§Ù„Ø¯ÙØ¹. ØªÙ…Øª Ø¥Ø¶Ø§ÙØ© Ø®ØªÙ… ÙˆÙ„Ø§Ø¡!"
+      );
+    }
 
-        // Add custom products before the "custom" option
-        customProducts.forEach((product) => {
-          const option = document.createElement("option");
-          option.value = `${product.name},${product.price}`;
-          option.textContent = `${product.name} - ${formatPrice(product.price)}`;
-          option.dataset.custom = "true";
-          select.insertBefore(option, customOption);
-        });
-      }
+    // Save customer updates to sb
+    await saveCustomerTosb(selectedBaristaCustomer);
 
-      // Customer editing functions
-      function editCustomer() {
-        const editCustomerForm = document.getElementById("edit-customer-form");
-        const editCustomerBtn = document.getElementById("edit-customer-btn");
-        
-        if (editCustomerForm) editCustomerForm.classList.remove("hidden");
-        if (editCustomerBtn) editCustomerBtn.style.display = "none";
-      }
+    // Save order to sb
+    const newOrder = {
+      customer_id: selectedBaristaCustomer.id,
+      product: productName,
+      price: price,
+      isFree: isFree,
+    };
+    const savedOrder = await saveOrderTosb(newOrder);
 
-      async function saveCustomerChanges() {
-        console.log('💾 حفظ تغييرات العميل');
-        
-        const editCustomerName = document.getElementById("edit-customer-name");
-        const editCustomerPhone = document.getElementById("edit-customer-phone");
+    // Update customer orders locally
+    if (!selectedBaristaCustomer.orders) selectedBaristaCustomer.orders = [];
+    selectedBaristaCustomer.orders.push(savedOrder);
 
-        if (!editCustomerName || !editCustomerPhone) {
-          showNotification("عناصر النموذج غير موجودة", "error");
-          return;
-        }
+    productSelect.value = "";
+    const customProductFields = document.getElementById(
+      "custom-product-fields"
+    );
+    if (customProductFields) {
+      customProductFields.classList.add("hidden");
+    }
 
-        const newName = editCustomerName.value.trim();
-        const newPhone = editCustomerPhone.value.trim();
+    updateBaristaCustomerDisplay();
+    renderBaristaCustomersTable();
 
-        if (!newName) {
-          showNotification("الاسم لا يمكن أن يكون فارغاً", "error");
-          return;
-        }
+    // Update current customer display if it's the same customer
+    if (currentCustomer && currentCustomer.id === selectedBaristaCustomer.id) {
+      currentCustomer.loyalty_points = selectedBaristaCustomer.loyalty_points;
+      currentCustomer.loyaltyPoints = selectedBaristaCustomer.loyalty_points;
+      updateCustomerDisplay();
+    }
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø·Ù„Ø¨:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø·Ù„Ø¨: " + error.message,
+      "error"
+    );
+  }
+}
 
-        try {
-          // Check if name already exists (excluding current customer)
-          const existingCustomer = customers.find(
-            (c) =>
-              c.id !== selectedBaristaCustomer.id &&
-              c.name.toLowerCase() === newName.toLowerCase()
-          );
-          if (existingCustomer) {
-            showNotification("اسم العميل موجود بالفعل", "error");
-            return;
-          }
+function updateProductSelect() {
+  const select = document.getElementById("barista-product-select");
+  if (!select) return;
 
-          selectedBaristaCustomer.name = newName;
-          selectedBaristaCustomer.phone = newPhone;
+  const customOption = select.querySelector('option[value="custom"]');
 
-          // Save to Supabase
-          await saveCustomerToSupabase(selectedBaristaCustomer);
+  // Remove existing custom products
+  const options = select.querySelectorAll("option");
+  options.forEach((option) => {
+    if (option.dataset.custom === "true") {
+      option.remove();
+    }
+  });
 
-          showNotification("تم تحديث معلومات العميل بنجاح");
+  // Add custom products before the "custom" option
+  customProducts.forEach((product) => {
+    const option = document.createElement("option");
+    option.value = `${product.name},${product.price}`;
+    option.textContent = `${product.name} - ${formatPrice(product.price)}`;
+    option.dataset.custom = "true";
+    select.insertBefore(option, customOption);
+  });
+}
 
-          cancelCustomerEdit();
-          updateBaristaCustomerDisplay();
-          renderBaristaCustomersTable();
+// Customer editing functions
+function editCustomer() {
+  const editCustomerForm = document.getElementById("edit-customer-form");
+  const editCustomerBtn = document.getElementById("edit-customer-btn");
 
-          // Update current customer display if it's the same customer
-          if (currentCustomer && currentCustomer.id === selectedBaristaCustomer.id) {
-            currentCustomer.name = selectedBaristaCustomer.name;
-            currentCustomer.phone = selectedBaristaCustomer.phone;
-            updateCustomerDisplay();
-          }
-          
-        } catch (error) {
-          console.error('❌ خطأ في تحديث العميل:', error);
-          showNotification("خطأ في تحديث معلومات العميل: " + error.message, "error");
-        }
-      }
+  if (editCustomerForm) editCustomerForm.classList.remove("hidden");
+  if (editCustomerBtn) editCustomerBtn.style.display = "none";
+}
 
-      function cancelCustomerEdit() {
-        const editCustomerForm = document.getElementById("edit-customer-form");
-        const editCustomerBtn = document.getElementById("edit-customer-btn");
-        const editCustomerName = document.getElementById("edit-customer-name");
-        const editCustomerPhone = document.getElementById("edit-customer-phone");
-        
-        if (editCustomerForm) editCustomerForm.classList.add("hidden");
-        if (editCustomerBtn) editCustomerBtn.style.display = "inline-block";
-        
-        // Reset form values
-        if (selectedBaristaCustomer) {
-          if (editCustomerName) editCustomerName.value = selectedBaristaCustomer.name;
-          if (editCustomerPhone) editCustomerPhone.value = selectedBaristaCustomer.phone || "";
-        }
-      }
+async function saveCustomerChanges() {
+  console.log("ðŸ’¾ Ø­ÙØ¸ ØªØºÙŠÙŠØ±Ø§Øª Ø§Ù„Ø¹Ù…ÙŠÙ„");
 
-      async function renderBaristaCustomersTable(customerList = null) {
-        console.log('👥 عرض جدول العملاء');
-        
-        const tbody = document.getElementById("barista-customers-table");
-        if (!tbody) return;
-        
-        // If no specific list provided, reload from Supabase
-        if (!customerList) {
-          await loadCustomers();
-        }
-        
-        const customersToShow = customerList || customers;
-        tbody.innerHTML = "";
+  const editCustomerName = document.getElementById("edit-customer-name");
+  const editCustomerPhone = document.getElementById("edit-customer-phone");
 
-        customersToShow.forEach((customer) => {
-          const row = document.createElement("tr");
-          row.className = "hover:bg-emerald-700/30 transition-all duration-300 border-b border-emerald-700/50";
-          
-          const loyaltyPoints = customer.loyalty_points || 0;
-          const orderCount = customer.orders ? customer.orders.length : 0;
-          
-          row.innerHTML = `
-            <td class="px-6 py-4 whitespace-nowrap text-lg text-white font-medium">${customer.name}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-lg text-emerald-200">${customer.phone || "-"}</td>
+  if (!editCustomerName || !editCustomerPhone) {
+    showNotification("Ø¹Ù†Ø§ØµØ± Ø§Ù„Ù†Ù…ÙˆØ°Ø¬ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯Ø©", "error");
+    return;
+  }
+
+  const newName = editCustomerName.value.trim();
+  const newPhone = editCustomerPhone.value.trim();
+
+  if (!newName) {
+    showNotification(
+      "Ø§Ù„Ø§Ø³Ù… Ù„Ø§ ÙŠÙ…ÙƒÙ† Ø£Ù† ÙŠÙƒÙˆÙ† ÙØ§Ø±ØºØ§Ù‹",
+      "error"
+    );
+    return;
+  }
+
+  try {
+    // Check if name already exists (excluding current customer)
+    const existingCustomer = customers.find(
+      (c) =>
+        c.id !== selectedBaristaCustomer.id &&
+        c.name.toLowerCase() === newName.toLowerCase()
+    );
+    if (existingCustomer) {
+      showNotification("Ø§Ø³Ù… Ø§Ù„Ø¹Ù…ÙŠÙ„ Ù…ÙˆØ¬ÙˆØ¯ Ø¨Ø§Ù„ÙØ¹Ù„", "error");
+      return;
+    }
+
+    selectedBaristaCustomer.name = newName;
+    selectedBaristaCustomer.phone = newPhone;
+
+    // Save to sb
+    await saveCustomerTosb(selectedBaristaCustomer);
+
+    showNotification("ØªÙ… ØªØ­Ø¯ÙŠØ« Ù…Ø¹Ù„ÙˆÙ…Ø§Øª Ø§Ù„Ø¹Ù…ÙŠÙ„ Ø¨Ù†Ø¬Ø§Ø­");
+
+    cancelCustomerEdit();
+    updateBaristaCustomerDisplay();
+    renderBaristaCustomersTable();
+
+    // Update current customer display if it's the same customer
+    if (currentCustomer && currentCustomer.id === selectedBaristaCustomer.id) {
+      currentCustomer.name = selectedBaristaCustomer.name;
+      currentCustomer.phone = selectedBaristaCustomer.phone;
+      updateCustomerDisplay();
+    }
+  } catch (error) {
+    console.error("âŒ Ø®Ø·Ø£ ÙÙŠ ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø¹Ù…ÙŠÙ„:", error);
+    showNotification(
+      "Ø®Ø·Ø£ ÙÙŠ ØªØ­Ø¯ÙŠØ« Ù…Ø¹Ù„ÙˆÙ…Ø§Øª Ø§Ù„Ø¹Ù…ÙŠÙ„: " + error.message,
+      "error"
+    );
+  }
+}
+
+function cancelCustomerEdit() {
+  const editCustomerForm = document.getElementById("edit-customer-form");
+  const editCustomerBtn = document.getElementById("edit-customer-btn");
+  const editCustomerName = document.getElementById("edit-customer-name");
+  const editCustomerPhone = document.getElementById("edit-customer-phone");
+
+  if (editCustomerForm) editCustomerForm.classList.add("hidden");
+  if (editCustomerBtn) editCustomerBtn.style.display = "inline-block";
+
+  // Reset form values
+  if (selectedBaristaCustomer) {
+    if (editCustomerName) editCustomerName.value = selectedBaristaCustomer.name;
+    if (editCustomerPhone)
+      editCustomerPhone.value = selectedBaristaCustomer.phone || "";
+  }
+}
+
+async function renderBaristaCustomersTable(customerList = null) {
+  console.log("ðŸ‘¥ Ø¹Ø±Ø¶ Ø¬Ø¯ÙˆÙ„ Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡");
+
+  const tbody = document.getElementById("barista-customers-table");
+  if (!tbody) return;
+
+  // If no specific list provided, reload from sb
+  if (!customerList) {
+    await loadCustomers();
+  }
+
+  const customersToShow = customerList || customers;
+  tbody.innerHTML = "";
+
+  customersToShow.forEach((customer) => {
+    const row = document.createElement("tr");
+    row.className =
+      "hover:bg-emerald-700/30 transition-all duration-300 border-b border-emerald-700/50";
+
+    const loyaltyPoints = customer.loyalty_points || 0;
+    const orderCount = customer.orders ? customer.orders.length : 0;
+
+    row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap text-lg text-white font-medium">${
+              customer.name
+            }</td>
+            <td class="px-6 py-4 whitespace-nowrap text-lg text-emerald-200">${
+              customer.phone || "-"
+            }</td>
             <td class="px-6 py-4 whitespace-nowrap text-lg text-emerald-200">${orderCount}</td>
             <td class="px-6 py-4 whitespace-nowrap text-lg text-emerald-200">
               <div class="flex items-center gap-3">
                 <span>${loyaltyPoints}/${STAMPS_FOR_FREE}</span>
-                ${loyaltyPoints >= STAMPS_FOR_FREE ? '<span class="text-green-400 text-xl">🎉</span>' : ""}
+                ${
+                  loyaltyPoints >= STAMPS_FOR_FREE
+                    ? '<span class="text-green-400 text-xl">ðŸŽ‰</span>'
+                    : ""
+                }
               </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-lg font-medium">
@@ -2244,694 +2475,728 @@
               </button>
             </td>
           `;
-          tbody.appendChild(row);
+    tbody.appendChild(row);
+  });
+}
+
+// ===== EmailJS Contact Form Functions =====
+function initializeContactForm() {
+  console.log("ðŸ“§ ØªÙ‡ÙŠØ¦Ø© EmailJS...");
+
+  const EMAIL_CONFIG = {
+    publicKey: "bBvH3gDiVxfI-87ZG",
+    serviceId: "service_vl1koee",
+    templateId: "template_5hg93ll",
+  };
+
+  if (typeof emailjs === "undefined") {
+    console.error("âŒ Ù…ÙƒØªØ¨Ø© EmailJS ØºÙŠØ± Ù…Ø­Ù…Ù„Ø©");
+    return;
+  }
+
+  try {
+    emailjs.init(EMAIL_CONFIG.publicKey);
+    console.log("âœ… ØªÙ… ØªÙ‡ÙŠØ¦Ø© EmailJS Ø¨Ù†Ø¬Ø§Ø­");
+  } catch (error) {
+    console.error("âŒ ÙØ´Ù„ ÙÙŠ ØªÙ‡ÙŠØ¦Ø© EmailJS:", error);
+    return;
+  }
+
+  // Star rating functionality
+  const stars = document.querySelectorAll(".star");
+  const ratingInput = document.getElementById("contact-rating");
+  let currentRating = 0;
+
+  if (stars.length > 0 && ratingInput) {
+    stars.forEach((star, index) => {
+      star.addEventListener("click", () => {
+        currentRating = index + 1;
+        ratingInput.value = currentRating;
+        updateStars();
+      });
+
+      star.addEventListener("mouseover", () => {
+        const hoverRating = index + 1;
+        stars.forEach((s, i) => {
+          s.classList.toggle("active", i < hoverRating);
         });
+      });
+    });
+
+    const starRating = document.querySelector(".star-rating");
+    if (starRating) {
+      starRating.addEventListener("mouseleave", updateStars);
+    }
+
+    function updateStars() {
+      stars.forEach((star, index) => {
+        star.classList.toggle("active", index < currentRating);
+      });
+    }
+  }
+
+  // Form submission handler
+  const contactForm = document.getElementById("contact-form");
+  if (contactForm) {
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById("contact-submit-btn");
+      if (!submitBtn) return;
+
+      const originalText = submitBtn.innerHTML;
+
+      if (!ratingInput || !ratingInput.value) {
+        showNotification("ÙŠØ±Ø¬Ù‰ Ø§Ø®ØªÙŠØ§Ø± Ø§Ù„ØªÙ‚ÙŠÙŠÙ…", "error");
+        return;
       }
 
-      // ===== EmailJS Contact Form Functions =====
-      function initializeContactForm() {
-        console.log('📧 تهيئة EmailJS...');
-        
-        const EMAIL_CONFIG = {
-          publicKey: 'bBvH3gDiVxfI-87ZG',
-          serviceId: 'service_vl1koee',
-          templateId: 'template_5hg93ll'
-        };
+      submitBtn.innerHTML =
+        '<i class="fas fa-spinner fa-spin mr-2"></i> Ø¬Ø§Ø±ÙŠ Ø§Ù„Ø¥Ø±Ø³Ø§Ù„...';
+      submitBtn.disabled = true;
 
-        if (typeof emailjs === 'undefined') {
-          console.error('❌ مكتبة EmailJS غير محملة');
-          return;
+      try {
+        const result = await emailjs.sendForm(
+          EMAIL_CONFIG.serviceId,
+          EMAIL_CONFIG.templateId,
+          "#contact-form"
+        );
+
+        console.log("âœ… ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø¥ÙŠÙ…ÙŠÙ„ Ø¨Ù†Ø¬Ø§Ø­:", result);
+        showNotification(
+          "Ø´ÙƒØ±Ø§Ù‹ Ù„Ùƒ Ø¹Ù„Ù‰ Ù…Ù„Ø§Ø­Ø¸Ø§ØªÙƒ Ø§Ù„Ù‚ÙŠÙ…Ø©! ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø±Ø³Ø§Ù„ØªÙƒ Ø¨Ù†Ø¬Ø§Ø­."
+        );
+
+        // Reset form
+        contactForm.reset();
+        if (ratingInput) ratingInput.value = "";
+        currentRating = 0;
+        updateStars();
+      } catch (error) {
+        console.error("âŒ Ø®Ø·Ø£ ÙÙŠ EmailJS:", error);
+        showNotification(
+          "Ø¹Ø°Ø±Ø§Ù‹ØŒ Ø­Ø¯Ø« Ø®Ø·Ø£ ÙÙŠ Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø±Ø³Ø§Ù„Ø©. ÙŠØ±Ø¬Ù‰ Ø§Ù„Ù…Ø­Ø§ÙˆÙ„Ø© Ù…Ø±Ø© Ø£Ø®Ø±Ù‰.",
+          "error"
+        );
+      } finally {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  console.log("ðŸ“§ ØªÙ… ØªÙ‡ÙŠØ¦Ø© Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø§ØªØµØ§Ù„ Ù…Ø¹ EmailJS");
+}
+
+// ===== Video Background Functions =====
+function initializeVideoBackground() {
+  console.log("ðŸŽ¥ ØªÙ‡ÙŠØ¦Ø© Ø®Ù„ÙÙŠØ© Ø§Ù„ÙÙŠØ¯ÙŠÙˆ...");
+
+  const video = document.getElementById("hero-video");
+  if (!video) {
+    console.log("âš ï¸ Ø¹Ù†ØµØ± Ø§Ù„ÙÙŠØ¯ÙŠÙˆ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯");
+    return;
+  }
+
+  video.muted = true;
+  video.playsInline = true;
+  video.autoplay = true;
+  video.loop = true;
+  video.defaultMuted = true;
+  video.volume = 0;
+
+  const playVideo = () => {
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          console.log("âœ… Ø§Ù„ÙÙŠØ¯ÙŠÙˆ ÙŠØ¹Ù…Ù„ Ø¨Ù†Ø¬Ø§Ø­");
+          video.style.opacity = "1";
+        })
+        .catch((error) => {
+          console.log(
+            "âš ï¸ ÙØ´Ù„ ØªØ´ØºÙŠÙ„ Ø§Ù„ÙÙŠØ¯ÙŠÙˆ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹:",
+            error
+          );
+          video.style.display = "none";
+        });
+    }
+  };
+
+  video.addEventListener("loadeddata", playVideo);
+  video.addEventListener("canplaythrough", playVideo);
+  video.addEventListener("error", (e) => {
+    console.log("âŒ Ø®Ø·Ø£ ÙÙŠ Ø§Ù„ÙÙŠØ¯ÙŠÙˆ:", e);
+  });
+
+  video.load();
+  setTimeout(playVideo, 500);
+}
+
+// ===== Event Listeners Setup =====
+function setupEventListeners() {
+  console.log("ðŸŽ¯ Ø¥Ø¹Ø¯Ø§Ø¯ Ù…Ø³ØªÙ…Ø¹Ø§Øª Ø§Ù„Ø£Ø­Ø¯Ø§Ø«...");
+
+  // Mobile menu toggle
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+  let isMenuOpen = false;
+
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener("click", () => {
+      isMenuOpen = !isMenuOpen;
+      const spans = mobileMenuBtn.querySelectorAll("span");
+
+      if (isMenuOpen) {
+        mobileMenu.style.maxHeight = "500px";
+        spans[0].style.transform = "rotate(45deg) translate(6px, 6px)";
+        spans[1].style.opacity = "0";
+        spans[2].style.transform = "rotate(-45deg) translate(6px, -6px)";
+      } else {
+        mobileMenu.style.maxHeight = "0";
+        spans.forEach((span) => {
+          span.style.transform = "none";
+          span.style.opacity = "1";
+        });
+      }
+    });
+  }
+
+  // Product modal events
+  const productModalClose = document.getElementById("product-modal-close");
+  const orderNowBtn = document.getElementById("order-now-btn");
+
+  if (productModalClose)
+    productModalClose.addEventListener("click", closeProductModal);
+  if (orderNowBtn) orderNowBtn.addEventListener("click", orderNow);
+
+  // Shopping cart events
+  const checkoutBtn = document.getElementById("checkout-btn");
+  const cartModalClose = document.getElementById("cart-modal-close");
+
+  if (checkoutBtn) checkoutBtn.addEventListener("click", proceedToCheckout);
+  if (cartModalClose) {
+    cartModalClose.addEventListener("click", () => {
+      const cartModal = document.getElementById("cart-modal");
+      if (cartModal) {
+        cartModal.classList.add("hidden");
+        cartModal.classList.remove("flex");
+      }
+    });
+  }
+
+  // Checkout events
+  const checkoutForm = document.getElementById("checkout-form");
+  const checkoutModalClose = document.getElementById("checkout-modal-close");
+
+  if (checkoutForm) {
+    checkoutForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      submitOrder();
+    });
+  }
+
+  if (checkoutModalClose) {
+    checkoutModalClose.addEventListener("click", () => {
+      const checkoutModal = document.getElementById("checkout-modal");
+      if (checkoutModal) {
+        checkoutModal.classList.add("hidden");
+        checkoutModal.classList.remove("flex");
+      }
+    });
+  }
+
+  // Customer login buttons
+  const customerLoginButtons = [
+    document.getElementById("customer-login-btn"),
+    document.getElementById("mobile-customer-login-btn"),
+    document.getElementById("hero-loyalty-btn"),
+  ];
+
+  customerLoginButtons.forEach((btn) => {
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const customerModal = document.getElementById("customer-modal");
+        if (customerModal) {
+          customerModal.classList.remove("hidden");
+          customerModal.classList.add("flex");
         }
+        if (isMenuOpen && mobileMenuBtn) mobileMenuBtn.click();
+      });
+    }
+  });
 
-        try {
-          emailjs.init(EMAIL_CONFIG.publicKey);
-          console.log('✅ تم تهيئة EmailJS بنجاح');
-        } catch (error) {
-          console.error('❌ فشل في تهيئة EmailJS:', error);
-          return;
-        }
+  // Customer login submit
+  const customerLoginSubmit = document.getElementById("customer-login-submit");
+  if (customerLoginSubmit) {
+    customerLoginSubmit.addEventListener("click", async () => {
+      const customerIdentifier = document.getElementById("customer-identifier");
+      if (!customerIdentifier) return;
 
-        // Star rating functionality
-        const stars = document.querySelectorAll(".star");
-        const ratingInput = document.getElementById("contact-rating");
-        let currentRating = 0;
-
-        if (stars.length > 0 && ratingInput) {
-          stars.forEach((star, index) => {
-            star.addEventListener("click", () => {
-              currentRating = index + 1;
-              ratingInput.value = currentRating;
-              updateStars();
-            });
-
-            star.addEventListener("mouseover", () => {
-              const hoverRating = index + 1;
-              stars.forEach((s, i) => {
-                s.classList.toggle("active", i < hoverRating);
-              });
-            });
-          });
-
-          const starRating = document.querySelector(".star-rating");
-          if (starRating) {
-            starRating.addEventListener("mouseleave", updateStars);
-          }
-
-          function updateStars() {
-            stars.forEach((star, index) => {
-              star.classList.toggle("active", index < currentRating);
-            });
-          }
-        }
-
-        // Form submission handler
-        const contactForm = document.getElementById("contact-form");
-        if (contactForm) {
-          contactForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById("contact-submit-btn");
-            if (!submitBtn) return;
-
-            const originalText = submitBtn.innerHTML;
-
-            if (!ratingInput || !ratingInput.value) {
-              showNotification("يرجى اختيار التقييم", "error");
-              return;
-            }
-
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> جاري الإرسال...';
-            submitBtn.disabled = true;
-
-            try {
-              const result = await emailjs.sendForm(
-                EMAIL_CONFIG.serviceId,
-                EMAIL_CONFIG.templateId,
-                "#contact-form"
-              );
-
-              console.log('✅ تم إرسال الإيميل بنجاح:', result);
-              showNotification("شكراً لك على ملاحظاتك القيمة! تم إرسال رسالتك بنجاح.");
-
-              // Reset form
-              contactForm.reset();
-              if (ratingInput) ratingInput.value = "";
-              currentRating = 0;
-              updateStars();
-
-            } catch (error) {
-              console.error("❌ خطأ في EmailJS:", error);
-              showNotification("عذراً، حدث خطأ في إرسال الرسالة. يرجى المحاولة مرة أخرى.", "error");
-            } finally {
-              submitBtn.innerHTML = originalText;
-              submitBtn.disabled = false;
-            }
-          });
-        }
-
-        console.log('📧 تم تهيئة نموذج الاتصال مع EmailJS');
+      const identifier = customerIdentifier.value.trim();
+      if (!identifier) {
+        showNotification(
+          "ÙŠØ±Ø¬Ù‰ Ø¥Ø¯Ø®Ø§Ù„ Ø§Ù„Ø§Ø³Ù… Ø£Ùˆ Ø±Ù‚Ù… Ø§Ù„Ù‡Ø§ØªÙ",
+          "error"
+        );
+        return;
       }
 
-      // ===== Video Background Functions =====
-      function initializeVideoBackground() {
-        console.log('🎥 تهيئة خلفية الفيديو...');
-        
-        const video = document.getElementById("hero-video");
-        if (!video) {
-          console.log('⚠️ عنصر الفيديو غير موجود');
-          return;
+      try {
+        currentCustomer = await findOrCreateCustomer(identifier);
+        updateCustomerDisplay();
+
+        const customerModal = document.getElementById("customer-modal");
+        if (customerModal) {
+          customerModal.classList.add("hidden");
+          customerModal.classList.remove("flex");
         }
-
-        video.muted = true;
-        video.playsInline = true;
-        video.autoplay = true;
-        video.loop = true;
-        video.defaultMuted = true;
-        video.volume = 0;
-
-        const playVideo = () => {
-          const playPromise = video.play();
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                console.log("✅ الفيديو يعمل بنجاح");
-                video.style.opacity = "1";
-              })
-              .catch((error) => {
-                console.log("⚠️ فشل تشغيل الفيديو تلقائياً:", error);
-                video.style.display = "none";
-              });
-          }
-        };
-
-        video.addEventListener("loadeddata", playVideo);
-        video.addEventListener("canplaythrough", playVideo);
-        video.addEventListener("error", (e) => {
-          console.log("❌ خطأ في الفيديو:", e);
-        });
-
-        video.load();
-        setTimeout(playVideo, 500);
+        customerIdentifier.value = "";
+      } catch (error) {
+        console.error("âŒ Ø®Ø·Ø£ ÙÙŠ ØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ø¯Ø®ÙˆÙ„:", error);
       }
+    });
+  }
 
-      // ===== Event Listeners Setup =====
-      function setupEventListeners() {
-        console.log('🎯 إعداد مستمعات الأحداث...');
-
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-        const mobileMenu = document.getElementById("mobile-menu");
-        let isMenuOpen = false;
-
-        if (mobileMenuBtn && mobileMenu) {
-          mobileMenuBtn.addEventListener("click", () => {
-            isMenuOpen = !isMenuOpen;
-            const spans = mobileMenuBtn.querySelectorAll("span");
-
-            if (isMenuOpen) {
-              mobileMenu.style.maxHeight = "500px";
-              spans[0].style.transform = "rotate(45deg) translate(6px, 6px)";
-              spans[1].style.opacity = "0";
-              spans[2].style.transform = "rotate(-45deg) translate(6px, -6px)";
-            } else {
-              mobileMenu.style.maxHeight = "0";
-              spans.forEach((span) => {
-                span.style.transform = "none";
-                span.style.opacity = "1";
-              });
-            }
-          });
-        }
-
-        // Product modal events
-        const productModalClose = document.getElementById("product-modal-close");
-        const orderNowBtn = document.getElementById("order-now-btn");
-        
-        if (productModalClose) productModalClose.addEventListener("click", closeProductModal);
-        if (orderNowBtn) orderNowBtn.addEventListener("click", orderNow);
-
-        // Shopping cart events
-        const checkoutBtn = document.getElementById("checkout-btn");
-        const cartModalClose = document.getElementById("cart-modal-close");
-        
-        if (checkoutBtn) checkoutBtn.addEventListener("click", proceedToCheckout);
-        if (cartModalClose) {
-          cartModalClose.addEventListener("click", () => {
-            const cartModal = document.getElementById("cart-modal");
-            if (cartModal) {
-              cartModal.classList.add("hidden");
-              cartModal.classList.remove("flex");
-            }
-          });
-        }
-
-        // Checkout events
-        const checkoutForm = document.getElementById("checkout-form");
-        const checkoutModalClose = document.getElementById("checkout-modal-close");
-        
-        if (checkoutForm) {
-          checkoutForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            submitOrder();
-          });
-        }
-        
-        if (checkoutModalClose) {
-          checkoutModalClose.addEventListener("click", () => {
-            const checkoutModal = document.getElementById("checkout-modal");
-            if (checkoutModal) {
-              checkoutModal.classList.add("hidden");
-              checkoutModal.classList.remove("flex");
-            }
-          });
-        }
-
-        // Customer login buttons
-        const customerLoginButtons = [
-          document.getElementById("customer-login-btn"),
-          document.getElementById("mobile-customer-login-btn"),
-          document.getElementById("hero-loyalty-btn"),
-        ];
-
-        customerLoginButtons.forEach(btn => {
-          if (btn) {
-            btn.addEventListener("click", () => {
-              const customerModal = document.getElementById("customer-modal");
-              if (customerModal) {
-                customerModal.classList.remove("hidden");
-                customerModal.classList.add("flex");
-              }
-              if (isMenuOpen && mobileMenuBtn) mobileMenuBtn.click();
-            });
-          }
-        });
-
-        // Customer login submit
-        const customerLoginSubmit = document.getElementById("customer-login-submit");
-        if (customerLoginSubmit) {
-          customerLoginSubmit.addEventListener("click", async () => {
-            const customerIdentifier = document.getElementById("customer-identifier");
-            if (!customerIdentifier) return;
-
-            const identifier = customerIdentifier.value.trim();
-            if (!identifier) {
-              showNotification("يرجى إدخال الاسم أو رقم الهاتف", "error");
-              return;
-            }
-
-            try {
-              currentCustomer = await findOrCreateCustomer(identifier);
-              updateCustomerDisplay();
-
-              const customerModal = document.getElementById("customer-modal");
-              if (customerModal) {
-                customerModal.classList.add("hidden");
-                customerModal.classList.remove("flex");
-              }
-              customerIdentifier.value = "";
-            } catch (error) {
-              console.error('❌ خطأ في تسجيل الدخول:', error);
-            }
-          });
-        }
-
-        // Customer modal close
-        const customerModalClose = document.getElementById("customer-modal-close");
-        if (customerModalClose) {
-          customerModalClose.addEventListener("click", () => {
-            const customerModal = document.getElementById("customer-modal");
-            if (customerModal) {
-              customerModal.classList.add("hidden");
-              customerModal.classList.remove("flex");
-            }
-          });
-        }
-
-        // Customer dashboard
-        const customerNameDisplays = [
-          document.getElementById("customer-name-display"),
-          document.getElementById("mobile-customer-name-display"),
-        ];
-
-        customerNameDisplays.forEach(display => {
-          if (display) {
-            display.addEventListener("click", () => {
-              if (currentCustomer) {
-                const customerDashboard = document.getElementById("customer-dashboard");
-                if (customerDashboard) {
-                  customerDashboard.classList.remove("hidden");
-                  customerDashboard.classList.add("flex");
-                  updateCustomerDashboard();
-                }
-              }
-            });
-          }
-        });
-
-        const customerDashboardClose = document.getElementById("customer-dashboard-close");
-        if (customerDashboardClose) {
-          customerDashboardClose.addEventListener("click", () => {
-            const customerDashboard = document.getElementById("customer-dashboard");
-            if (customerDashboard) {
-              customerDashboard.classList.add("hidden");
-              customerDashboard.classList.remove("flex");
-            }
-          });
-        }
-
-        // Customer logout
-        const logoutButtons = [
-          document.getElementById("logout-customer-btn"),
-          document.getElementById("mobile-logout-customer-btn"),
-        ];
-
-        logoutButtons.forEach(btn => {
-          if (btn) {
-            btn.addEventListener("click", customerLogout);
-          }
-        });
-
-        // Barista access buttons
-        const baristaAccessButtons = [
-          document.getElementById("barista-access-btn"),
-          document.getElementById("mobile-barista-access-btn"),
-        ];
-
-        baristaAccessButtons.forEach(btn => {
-          if (btn) {
-            btn.addEventListener("click", () => {
-              const baristaModal = document.getElementById("barista-modal");
-              if (baristaModal) {
-                baristaModal.classList.remove("hidden");
-                baristaModal.classList.add("flex");
-              }
-              if (isMenuOpen && mobileMenuBtn) mobileMenuBtn.click();
-            });
-          }
-        });
-
-        // Barista login
-        const baristaLoginSubmit = document.getElementById("barista-login-submit");
-        if (baristaLoginSubmit) {
-          baristaLoginSubmit.addEventListener("click", () => {
-            const baristaPin = document.getElementById("barista-pin");
-            const baristaError = document.getElementById("barista-error");
-            
-            if (!baristaPin) return;
-
-            const pin = baristaPin.value;
-            if (pin === DEFAULT_BARISTA_PIN) {
-              const baristaModal = document.getElementById("barista-modal");
-              const baristaDashboard = document.getElementById("barista-dashboard");
-              
-              if (baristaModal) {
-                baristaModal.classList.add("hidden");
-                baristaModal.classList.remove("flex");
-              }
-              if (baristaDashboard) {
-                baristaDashboard.classList.remove("hidden");
-              }
-              
-              baristaPin.value = "";
-              if (baristaError) baristaError.classList.add("hidden");
-              
-              renderBaristaCustomersTable();
-              renderPendingOrders();
-              renderShopOrders();
-            } else {
-              if (baristaError) baristaError.classList.remove("hidden");
-              baristaPin.value = "";
-            }
-          });
-        }
-
-        // Barista modal close
-        const baristaModalClose = document.getElementById("barista-modal-close");
-        if (baristaModalClose) {
-          baristaModalClose.addEventListener("click", () => {
-            const baristaModal = document.getElementById("barista-modal");
-            const baristaPin = document.getElementById("barista-pin");
-            const baristaError = document.getElementById("barista-error");
-            
-            if (baristaModal) {
-              baristaModal.classList.add("hidden");
-              baristaModal.classList.remove("flex");
-            }
-            if (baristaPin) baristaPin.value = "";
-            if (baristaError) baristaError.classList.add("hidden");
-          });
-        }
-
-        // Barista logout
-        const baristaLogoutBtn = document.getElementById("barista-logout-btn");
-        if (baristaLogoutBtn) {
-          baristaLogoutBtn.addEventListener("click", () => {
-            const baristaDashboard = document.getElementById("barista-dashboard");
-            const baristaCustomerDetails = document.getElementById("barista-customer-details");
-            
-            if (baristaDashboard) baristaDashboard.classList.add("hidden");
-            if (baristaCustomerDetails) baristaCustomerDetails.classList.add("hidden");
-            
-            selectedBaristaCustomer = null;
-          });
-        }
-
-        // Customer edit functionality
-        const editCustomerBtn = document.getElementById("edit-customer-btn");
-        if (editCustomerBtn) {
-          editCustomerBtn.addEventListener("click", editCustomer);
-        }
-
-        // Product select change handler
-        const baristaProductSelect = document.getElementById("barista-product-select");
-        if (baristaProductSelect) {
-          baristaProductSelect.addEventListener("change", (e) => {
-            const customFields = document.getElementById("custom-product-fields");
-            if (customFields) {
-              if (e.target.value === "custom") {
-                customFields.classList.remove("hidden");
-              } else {
-                customFields.classList.add("hidden");
-              }
-            }
-          });
-        }
-
-        // Enter key support
-        const enterKeyElements = [
-          { input: "barista-pin", button: "barista-login-submit" },
-          { input: "customer-identifier", button: "customer-login-submit" },
-          { input: "search-customer", button: null, action: searchCustomer },
-        ];
-
-        enterKeyElements.forEach(({ input, button, action }) => {
-          const inputEl = document.getElementById(input);
-          if (inputEl) {
-            inputEl.addEventListener("keypress", (e) => {
-              if (e.key === "Enter") {
-                if (action) {
-                  action();
-                } else if (button) {
-                  const btnEl = document.getElementById(button);
-                  if (btnEl) btnEl.click();
-                }
-              }
-            });
-          }
-        });
-
-        // Menu filter functionality
-        const filterButtons = document.querySelectorAll(".filter-btn");
-        const menuItems = document.querySelectorAll(".menu-item");
-
-        filterButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const category = button.getAttribute("data-category");
-
-            // Update active button
-            filterButtons.forEach((btn) => btn.classList.remove("active"));
-            button.classList.add("active");
-
-            // Filter items with stagger animation
-            menuItems.forEach((item, index) => {
-              const itemCategory = item.getAttribute("data-category");
-              if (category === "all" || itemCategory === category) {
-                setTimeout(() => {
-                  item.style.display = "block";
-                  item.classList.add("fade-in-up");
-                }, index * 50);
-              } else {
-                item.style.display = "none";
-                item.classList.remove("fade-in-up");
-              }
-            });
-          });
-        });
-
-        // Shop filter functionality
-        const shopFilterButtons = document.querySelectorAll(".shop-filter-btn");
-        const shopItems = document.querySelectorAll(".shop-item");
-
-        shopFilterButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const category = button.getAttribute("data-shop-category");
-
-            // Update active button
-            shopFilterButtons.forEach((btn) => btn.classList.remove("active"));
-            button.classList.add("active");
-
-            // Filter items with stagger animation
-            shopItems.forEach((item, index) => {
-              const itemCategory = item.getAttribute("data-shop-category");
-              if (category === "all" || itemCategory === category) {
-                setTimeout(() => {
-                  item.style.display = "block";
-                  item.classList.add("fade-in-up");
-                }, index * 50);
-              } else {
-                item.style.display = "none";
-                item.classList.remove("fade-in-up");
-              }
-            });
-          });
-        });
-
-        // Navbar scroll effect
-        const navbar = document.getElementById("navbar");
-        if (navbar) {
-          window.addEventListener("scroll", () => {
-            if (window.scrollY > 100) {
-              navbar.classList.add("navbar-scrolled");
-            } else {
-              navbar.classList.remove("navbar-scrolled");
-            }
-          });
-        }
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-          anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute("href"));
-            if (target) {
-              target.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-
-              // Close mobile menu if open
-              if (isMenuOpen && mobileMenuBtn) {
-                mobileMenuBtn.click();
-              }
-            }
-          });
-        });
-
-        // Add scroll animations
-        const observerOptions = {
-          threshold: 0.1,
-          rootMargin: "0px 0px -50px 0px",
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("fade-in-up");
-            }
-          });
-        }, observerOptions);
-
-        // Observe all menu items and sections
-        document.querySelectorAll(".menu-item, .shop-item, .fade-in-up").forEach((el) => {
-          observer.observe(el);
-        });
-
-        console.log('✅ تم إعداد جميع مستمعات الأحداث');
+  // Customer modal close
+  const customerModalClose = document.getElementById("customer-modal-close");
+  if (customerModalClose) {
+    customerModalClose.addEventListener("click", () => {
+      const customerModal = document.getElementById("customer-modal");
+      if (customerModal) {
+        customerModal.classList.add("hidden");
+        customerModal.classList.remove("flex");
       }
+    });
+  }
 
-      // ===== Global Functions for Barista Dashboard =====
-      window.searchCustomer = searchCustomer;
-      window.selectBaristaCustomer = selectBaristaCustomer;
-      window.addNewCustomer = addNewCustomer;
-      window.addCustomerOrder = addCustomerOrder;
-      window.confirmOrder = confirmOrder;
-      window.cancelOrder = cancelOrder;
-      window.confirmShopOrder = confirmShopOrder;
-      window.cancelShopOrder = cancelShopOrder;
-      window.saveCustomerChanges = saveCustomerChanges;
-      window.cancelCustomerEdit = cancelCustomerEdit;
-      window.addToCart = addToCart;
-      window.removeFromCart = removeFromCart;
-      window.updateQuantity = updateQuantity;
-      window.toggleCart = toggleCart;
+  // Customer dashboard
+  const customerNameDisplays = [
+    document.getElementById("customer-name-display"),
+    document.getElementById("mobile-customer-name-display"),
+  ];
 
-      // ===== Real-time Updates =====
-      function setupRealTimeUpdates() {
-        console.log('🔔 إعداد التحديثات الفورية...');
-        
-        try {
-          // Subscribe to pending orders changes
-          supabase
-            .channel('pending_orders_channel')
-            .on('postgres_changes', 
-              { event: '*', schema: 'public', table: 'pending_orders' }, 
-              (payload) => {
-                console.log('🔄 تحديث الطلبات المعلقة:', payload);
-                loadPendingOrders();
-              }
-            )
-            .subscribe();
+  customerNameDisplays.forEach((display) => {
+    if (display) {
+      display.addEventListener("click", () => {
+        if (currentCustomer) {
+          const customerDashboard =
+            document.getElementById("customer-dashboard");
+          if (customerDashboard) {
+            customerDashboard.classList.remove("hidden");
+            customerDashboard.classList.add("flex");
+            updateCustomerDashboard();
+          }
+        }
+      });
+    }
+  });
 
-          // Subscribe to shop orders changes
-          supabase
-            .channel('shop_orders_channel')
-            .on('postgres_changes', 
-              { event: '*', schema: 'public', table: 'shop_orders' }, 
-              (payload) => {
-                console.log('🔄 تحديث طلبات المتجر:', payload);
-                loadShopOrders();
-              }
-            )
-            .subscribe();
+  const customerDashboardClose = document.getElementById(
+    "customer-dashboard-close"
+  );
+  if (customerDashboardClose) {
+    customerDashboardClose.addEventListener("click", () => {
+      const customerDashboard = document.getElementById("customer-dashboard");
+      if (customerDashboard) {
+        customerDashboard.classList.add("hidden");
+        customerDashboard.classList.remove("flex");
+      }
+    });
+  }
 
-          // Subscribe to customers changes
-          supabase
-            .channel('customers_channel')
-            .on('postgres_changes', 
-              { event: '*', schema: 'public', table: 'customers' }, 
-              (payload) => {
-                console.log('🔄 تحديث العملاء:', payload);
-                loadCustomers();
-                if (selectedBaristaCustomer) {
-                  renderBaristaCustomersTable();
-                }
-              }
-            )
-            .subscribe();
+  // Customer logout
+  const logoutButtons = [
+    document.getElementById("logout-customer-btn"),
+    document.getElementById("mobile-logout-customer-btn"),
+  ];
 
-          console.log('✅ تم تفعيل التحديثات الفورية');
-        } catch (error) {
-          console.error('❌ خطأ في إعداد التحديثات الفورية:', error);
+  logoutButtons.forEach((btn) => {
+    if (btn) {
+      btn.addEventListener("click", customerLogout);
+    }
+  });
+
+  // Barista access buttons
+  const baristaAccessButtons = [
+    document.getElementById("barista-access-btn"),
+    document.getElementById("mobile-barista-access-btn"),
+  ];
+
+  baristaAccessButtons.forEach((btn) => {
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const baristaModal = document.getElementById("barista-modal");
+        if (baristaModal) {
+          baristaModal.classList.remove("hidden");
+          baristaModal.classList.add("flex");
+        }
+        if (isMenuOpen && mobileMenuBtn) mobileMenuBtn.click();
+      });
+    }
+  });
+
+  // Barista login
+  const baristaLoginSubmit = document.getElementById("barista-login-submit");
+  if (baristaLoginSubmit) {
+    baristaLoginSubmit.addEventListener("click", () => {
+      const baristaPin = document.getElementById("barista-pin");
+      const baristaError = document.getElementById("barista-error");
+
+      if (!baristaPin) return;
+
+      const pin = baristaPin.value;
+      if (pin === DEFAULT_BARISTA_PIN) {
+        const baristaModal = document.getElementById("barista-modal");
+        const baristaDashboard = document.getElementById("barista-dashboard");
+
+        if (baristaModal) {
+          baristaModal.classList.add("hidden");
+          baristaModal.classList.remove("flex");
+        }
+        if (baristaDashboard) {
+          baristaDashboard.classList.remove("hidden");
+        }
+
+        baristaPin.value = "";
+        if (baristaError) baristaError.classList.add("hidden");
+
+        renderBaristaCustomersTable();
+        renderPendingOrders();
+        renderShopOrders();
+      } else {
+        if (baristaError) baristaError.classList.remove("hidden");
+        baristaPin.value = "";
+      }
+    });
+  }
+
+  // Barista modal close
+  const baristaModalClose = document.getElementById("barista-modal-close");
+  if (baristaModalClose) {
+    baristaModalClose.addEventListener("click", () => {
+      const baristaModal = document.getElementById("barista-modal");
+      const baristaPin = document.getElementById("barista-pin");
+      const baristaError = document.getElementById("barista-error");
+
+      if (baristaModal) {
+        baristaModal.classList.add("hidden");
+        baristaModal.classList.remove("flex");
+      }
+      if (baristaPin) baristaPin.value = "";
+      if (baristaError) baristaError.classList.add("hidden");
+    });
+  }
+
+  // Barista logout
+  const baristaLogoutBtn = document.getElementById("barista-logout-btn");
+  if (baristaLogoutBtn) {
+    baristaLogoutBtn.addEventListener("click", () => {
+      const baristaDashboard = document.getElementById("barista-dashboard");
+      const baristaCustomerDetails = document.getElementById(
+        "barista-customer-details"
+      );
+
+      if (baristaDashboard) baristaDashboard.classList.add("hidden");
+      if (baristaCustomerDetails)
+        baristaCustomerDetails.classList.add("hidden");
+
+      selectedBaristaCustomer = null;
+    });
+  }
+
+  // Customer edit functionality
+  const editCustomerBtn = document.getElementById("edit-customer-btn");
+  if (editCustomerBtn) {
+    editCustomerBtn.addEventListener("click", editCustomer);
+  }
+
+  // Product select change handler
+  const baristaProductSelect = document.getElementById(
+    "barista-product-select"
+  );
+  if (baristaProductSelect) {
+    baristaProductSelect.addEventListener("change", (e) => {
+      const customFields = document.getElementById("custom-product-fields");
+      if (customFields) {
+        if (e.target.value === "custom") {
+          customFields.classList.remove("hidden");
+        } else {
+          customFields.classList.add("hidden");
         }
       }
+    });
+  }
 
-      // ===== Initialization =====
-      async function initializeApp() {
-        try {
-          console.log('🚀 بدء تهيئة التطبيق...');
-          
-          // Initialize data arrays
-          menuItems = [...DEFAULT_MENU_ITEMS];
-          shopItems = [...DEFAULT_SHOP_ITEMS];
-          
-          // Load data from Supabase
-          await Promise.all([
-            loadCustomers(),
-            loadPendingOrders(), 
-            loadShopOrders(),
-            loadCustomProducts()
-          ]);
-          
-          // Load cart from localStorage
-          loadShoppingCart();
-          
-          // Render initial content
-          renderMenuItems();
-          renderShopItems();
-          
-          // Setup event listeners
-          setupEventListeners();
-          
-          // Initialize other components
-          initializeContactForm();
-          initializeVideoBackground();
-          
-          // Render initial data for barista
-          await renderBaristaCustomersTable();
-          
-          // Setup real-time updates
-          setupRealTimeUpdates();
-          
-          // Add loading complete indicator
+  // Enter key support
+  const enterKeyElements = [
+    { input: "barista-pin", button: "barista-login-submit" },
+    { input: "customer-identifier", button: "customer-login-submit" },
+    { input: "search-customer", button: null, action: searchCustomer },
+  ];
+
+  enterKeyElements.forEach(({ input, button, action }) => {
+    const inputEl = document.getElementById(input);
+    if (inputEl) {
+      inputEl.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          if (action) {
+            action();
+          } else if (button) {
+            const btnEl = document.getElementById(button);
+            if (btnEl) btnEl.click();
+          }
+        }
+      });
+    }
+  });
+
+  // Menu filter functionality
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const menuItems = document.querySelectorAll(".menu-item");
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const category = button.getAttribute("data-category");
+      const currentMenuItems = document.querySelectorAll(".menu-item");
+
+      // Update active button
+      filterButtons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      // Filter items with stagger animation
+      currentMenuItems.forEach((item, index) => {
+        const itemCategory = item.getAttribute("data-category");
+        if (category === "all" || itemCategory === category) {
           setTimeout(() => {
-            document.body.classList.add("loaded");
-            showNotification('🎉 مرحباً بك في Twenty One Cafe!');
-          }, 1000);
-          
-          console.log('✅ تم تهيئة التطبيق بنجاح');
-          
-        } catch (error) {
-          console.error('❌ خطأ في تهيئة التطبيق:', error);
-          showNotification('خطأ في بدء التطبيق: ' + error.message, 'error');
+            item.style.display = "block";
+            item.classList.add("fade-in-up");
+          }, index * 50);
+        } else {
+          item.style.display = "none";
+          item.classList.remove("fade-in-up");
+        }
+      });
+    });
+  });
+
+  // Shop filter functionality
+  const shopFilterButtons = document.querySelectorAll(".shop-filter-btn");
+  const shopItems = document.querySelectorAll(".shop-item");
+
+  shopFilterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const category = button.getAttribute("data-shop-category");
+      const currentShopItems = document.querySelectorAll(".shop-item");
+
+      // Update active button
+      shopFilterButtons.forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      // Filter items with stagger animation
+      currentShopItems.forEach((item, index) => {
+        const itemCategory = item.getAttribute("data-shop-category");
+        if (category === "all" || itemCategory === category) {
+          setTimeout(() => {
+            item.style.display = "block";
+            item.classList.add("fade-in-up");
+          }, index * 50);
+        } else {
+          item.style.display = "none";
+          item.classList.remove("fade-in-up");
+        }
+      });
+    });
+  });
+
+  // Navbar scroll effect
+  const navbar = document.getElementById("navbar");
+  if (navbar) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 100) {
+        navbar.classList.add("navbar-scrolled");
+      } else {
+        navbar.classList.remove("navbar-scrolled");
+      }
+    });
+  }
+
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      const href = this.getAttribute("href");
+      if (href === "#") return; // Skip top placeholder links
+
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        // Close mobile menu if open
+        if (isMenuOpen && mobileMenuBtn) {
+          mobileMenuBtn.click();
         }
       }
+    });
+  });
 
-      // Start the app when DOM is loaded
-      document.addEventListener("DOMContentLoaded", initializeApp);
+  // Add scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  };
 
-      // Add load finished indicator
-      window.onload = function () {
-        var d = document.createElement("div");
-        d.id = "aionspaceLoadFinished";
-        document.body.appendChild(d);
-      };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("fade-in-up");
+      }
+    });
+  }, observerOptions);
+
+  // Observe all menu items and sections
+  document
+    .querySelectorAll(".menu-item, .shop-item, .fade-in-up")
+    .forEach((el) => {
+      observer.observe(el);
+    });
+
+  console.log(
+    "✅ تم إعدعرض عناصر القائمةد جميع مستمععرض عناصر القائمةت عرض عناصر القائمةلأحدعرض عناصر القائمةث"
+  );
+}
+
+// ===== Global Functions for Barista Dashboard =====
+window.searchCustomer = searchCustomer;
+window.selectBaristaCustomer = selectBaristaCustomer;
+window.addNewCustomer = addNewCustomer;
+window.addCustomerOrder = addCustomerOrder;
+window.confirmOrder = confirmOrder;
+window.cancelOrder = cancelOrder;
+window.confirmShopOrder = confirmShopOrder;
+window.cancelShopOrder = cancelShopOrder;
+window.saveCustomerChanges = saveCustomerChanges;
+window.cancelCustomerEdit = cancelCustomerEdit;
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.updateQuantity = updateQuantity;
+window.toggleCart = toggleCart;
+
+// ===== Real-time Updates =====
+function setupRealTimeUpdates() {
+  console.log("ðŸ”” Ø¥Ø¹Ø¯Ø§Ø¯ Ø§Ù„ØªØ­Ø¯ÙŠØ«Ø§Øª Ø§Ù„ÙÙˆØ±ÙŠØ©...");
+
+  try {
+    // Subscribe to pending orders changes
+    sb.channel("pending_orders_channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "pending_orders" },
+        (payload) => {
+          console.log(
+            "ðŸ”„ ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ù…Ø¹Ù„Ù‚Ø©:",
+            payload
+          );
+          loadPendingOrders();
+        }
+      )
+      .subscribe();
+
+    // Subscribe to shop orders changes
+    sb.channel("shop_orders_channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "shop_orders" },
+        (payload) => {
+          console.log("ðŸ”„ ØªØ­Ø¯ÙŠØ« Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ù…ØªØ¬Ø±:", payload);
+          loadShopOrders();
+        }
+      )
+      .subscribe();
+
+    // Subscribe to customers changes
+    sb.channel("customers_channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "customers" },
+        (payload) => {
+          console.log("ðŸ”„ ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡:", payload);
+          loadCustomers();
+          if (selectedBaristaCustomer) {
+            renderBaristaCustomersTable();
+          }
+        }
+      )
+      .subscribe();
+
+    console.log("âœ… ØªÙ… ØªÙØ¹ÙŠÙ„ Ø§Ù„ØªØ­Ø¯ÙŠØ«Ø§Øª Ø§Ù„ÙÙˆØ±ÙŠØ©");
+  } catch (error) {
+    console.error(
+      "âŒ Ø®Ø·Ø£ ÙÙŠ Ø¥Ø¹Ø¯Ø§Ø¯ Ø§Ù„ØªØ­Ø¯ÙŠØ«Ø§Øª Ø§Ù„ÙÙˆØ±ÙŠØ©:",
+      error
+    );
+  }
+}
+
+// ===== Initialization =====
+async function initializeApp() {
+  try {
+    console.log("🚀 Initializing Supabase...");
+
+    // Initialize data arrays
+    menuItems = [...DEFAULT_MENU_ITEMS];
+    shopItems = [...DEFAULT_SHOP_ITEMS];
+
+    // Load cart from localStorage
+    loadShoppingCart();
+
+    // Render initial content IMMEDIATELY with default items
+    renderMenuItems();
+    renderShopItems();
+
+    // Setup event listeners
+    setupEventListeners();
+
+    // Load data from sb in background
+    Promise.all([
+      loadCustomers(),
+      loadPendingOrders(),
+      loadShopOrders(),
+      loadCustomProducts(),
+    ]).then(() => {
+      // Re-render if necessary after cloud load
+      renderMenuItems();
+      renderShopItems();
+      renderBaristaCustomersTable();
+      setupRealTimeUpdates();
+    });
+
+    // Initialize other components
+    initializeContactForm();
+    initializeVideoBackground();
+
+    // Add loading complete indicator
+    setTimeout(() => {
+      document.body.classList.add("loaded");
+      showNotification("🎉 Welcome to Twenty One Cafe!");
+    }, 1000);
+
+    console.log("✅ App initialized successfully");
+  } catch (error) {
+    console.error("❌ Error initializing app:", error);
+    showNotification("Error starting app: " + error.message, "error");
+  }
+}
+
+// Start the app when DOM is loaded
+document.addEventListener("DOMContentLoaded", initializeApp);
+
+// Add load finished indicator
+window.onload = function () {
+  var d = document.createElement("div");
+  d.id = "aionspaceLoadFinished";
+  document.body.appendChild(d);
+};
